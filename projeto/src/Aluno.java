@@ -14,26 +14,60 @@ public class Aluno extends Usuario {
     this.setMatricula(matricula);
   }
 
-  public void addDisciplina(Disciplina disciplina) {}
+  public void addDisciplina(Disciplina disciplina) {
+    try {
+      Boolean isDisciplinaObrigatoria = disciplina.getTipo() == TipoDisciplina.OBRIGATORIA;
+      Boolean disciplinaMatriculada = this.disciplinasMatriculadas.contains(disciplina);
 
-  public void removerDisciplina(Disciplina disciplina) {}
+      if (disciplinaMatriculada) {
+        throw new IllegalArgumentException("Disciplina já matriculada");
+      }
+
+      if (isDisciplinaObrigatoria) {
+        this.addDisciplina(disciplina, Usuario.MAX_DISCIPLINAS_OBG, this.disciplinasObg, "obrigatórias");
+        this.disciplinasObg++;
+      } else {
+        this.addDisciplina(disciplina, Usuario.MAX_DISCIPLINAS_OPT, this.disciplinasOpt, "optativas");
+        this.disciplinasOpt++;
+      }
+    } catch (Exception e) {
+      System.out.println(e + "\n");
+    }
+  }
+
+  private void addDisciplina(Disciplina disciplina, int maxPossivel, int curDisciplinasMatriculadas, String tipoDisciplina) {
+    if (curDisciplinasMatriculadas < maxPossivel) {
+      disciplina.Matricular(this);
+    } else {
+      throw new IllegalStateException("Só é possivel se matricular em no máximo " + max + " disciplinas " + tipoDisciplina);
+    }
+  }
+
+  public void removerDisciplina(Disciplina disciplina) {
+    try {
+      Boolean isDisciplinaObrigatoria = disciplina.getTipo() == TipoDisciplina.OBRIGATORIA;
+      Boolean disciplinaMatriculada = this.disciplinasMatriculadas.
+
+      if (!disciplinaMatriculada) {
+        throw new IllegalArgumentException("Disciplina não matriculada");
+      }
+
+      disciplina.CancelarMatricula(this);
+
+      if (isDisciplinaObrigatoria) {
+        this.disciplinasObg--;
+      } else {
+        this.disciplinasOpt--;
+      }
+    } catch (Exception e) {
+      System.out.println(e + "\n");
+    }
+  }
 
   public String getMatricula() {
     return matricula;
   }
   public void setMatricula(String matricula) {
     this.matricula = matricula;
-  }
-  public int getDisciplinasObg() {
-    return disciplinasObg;
-  }
-  public void setDisciplinasObg(int disciplinasObg) {
-    this.disciplinasObg = disciplinasObg;
-  }
-  public int getDisciplinasOpt() {
-    return disciplinasOpt;
-  }
-  public void setDisciplinasOpt(int disciplinasOpt) {
-    this.disciplinasOpt = disciplinasOpt;
   }
 }

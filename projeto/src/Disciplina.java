@@ -10,9 +10,23 @@ public class Disciplina {
   private Double valor;
   private List<Aluno> alunos;
 
-  public void Matricular(Aluno aluno) {}
+  public void Matricular(Aluno aluno) {
+    if (this.alunos.size() < Disciplina.LIMITE_ALUNOS) {
+      this.alunos.add(aluno);
+    } else {
+      throw new IllegalStateException("A sala para a disciplina está cheia");
+    }
+  }
 
-  public void CancelarMatricula(Aluno aluno) {}
+  public void CancelarMatricula(Aluno aluno) {
+    Boolean isAlunoMatriculado = this.alunos.contains(aluno);
+
+    if (!isAlunoMatriculado) {
+      throw new IllegalArgumentException("O aluno em questão não está matriculado na disciplina");
+    } else {
+      this.alunos.remove(aluno);
+    }
+  }
 
   public List<Aluno> ListarAlunos() {
     return this.alunos;
