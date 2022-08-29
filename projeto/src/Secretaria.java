@@ -47,4 +47,8 @@ public class Secretaria {
     public List<Aluno> ListarAlunos() {
       return this.alunos;
     }
+
+    public List<Disciplina> ListarDisciplinas() {
+      return this.disciplinas;
+    }
 }
