@@ -8,8 +8,17 @@ public class Secretaria {
     private Map<String, Aluno> alunos;
     private SistemaFinanceiro sistemaFinanceiro;
     private Boolean permiteAlteracaoDeMatricula;
+    private Secretaria secretaria;
 
-    public Secretaria() {}
+    private Secretaria() {}
+
+    public Secretaria getInstance() {
+      if (this.secretaria == null) {
+        this.secretaria = new Secretaria();
+      }
+
+      return this.secretaria;
+    }
 
     public Curriculo GerarCurriculo() {
       return new Curriculo();
