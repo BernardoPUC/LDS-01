@@ -15,9 +15,19 @@ public class Secretaria {
       return new Curriculo();
     }
     
-    public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {}
+    public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {
+      aluno.addDisciplina(disciplina);
+    }
 
-    public void SolicitarCancelamentoMatricula(Aluno aluno, Disciplina disciplina) {}
+    public void SolicitarCancelamentoMatricula(Aluno aluno, Disciplina disciplina) {
+      aluno.removerDisciplina(disciplina);
+    }
 
-    public void NotificarFinanceiro(Aluno aluno) {}
+    public void InscreverParaSemestre(Aluno aluno) {
+      this.NotificarFinanceiro(aluno);
+    }
+
+    private void NotificarFinanceiro(Aluno aluno) {
+
+    }
 }

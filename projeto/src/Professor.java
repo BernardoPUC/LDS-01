@@ -7,7 +7,15 @@ public class Professor extends Usuario {
     super(nome, login, email, senha);
   }
 
-  public void ListarAlunos() {}
+  public void ListarAlunos() {
+    this.disciplinas.stream().forEach(disciplina -> {
+      this.ListarAlunos(disciplina);
+    });
+  }
 
-  public void ListarAlunos(Disciplina disciplina) {}
+  public void ListarAlunos(Disciplina disciplina) {
+    List<Aluno> alunos = disciplina.ListarAlunos();
+
+    alunos.stream().forEach(System.out::println);
+  }
 }

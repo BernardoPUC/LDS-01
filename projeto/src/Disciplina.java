@@ -11,8 +11,12 @@ public class Disciplina {
   private List<Aluno> alunos;
 
   public void Matricular(Aluno aluno) {
-    if (this.alunos.size() < Disciplina.LIMITE_ALUNOS) {
+    int qtdeAlunos = this.alunos.size();
+
+    if (qtdeAlunos < Disciplina.LIMITE_ALUNOS) {
       this.alunos.add(aluno);
+
+      this.setAtiva(qtdeAlunos > Disciplina.MIN_ALUNOS);
     } else {
       throw new IllegalStateException("A sala para a disciplina está cheia");
     }
@@ -25,6 +29,9 @@ public class Disciplina {
       throw new IllegalArgumentException("O aluno em questão não está matriculado na disciplina");
     } else {
       this.alunos.remove(aluno);
+      int qtdeAlunos = this.alunos.size();
+
+      this.setAtiva(qtdeAlunos > Disciplina.MIN_ALUNOS);
     }
   }
 
