@@ -49,7 +49,7 @@ public class App {
         }     
     }
 
-    private static void ProcessarInstrucao(String instrucao, Usuario usuario) {
+    private static void ProcessarInstrucao(Scanner scanner, String instrucao, Usuario usuario) {
         if (usuario == null) {
             if (instrucao.equals("1")) {
                 Usuario usuarioEncontrado = AuthFactory.Autenticar(scanner);
@@ -59,7 +59,45 @@ public class App {
                 }
             }
         } else {
+            String tipoUsuario = usuario.getClass().getName();
 
+            switch (tipoUsuario) {
+                case "Aluno":
+                    switch (instrucao) {
+                        case "1":
+                            AlunoFactory.matricular(usuario);
+                            break;
+                        case "2": 
+                            AlunoFactory.cancelarMatricula(usuario);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Professor":
+                    if (instrucao.equals("1")) {
+                        ProfessorFactory.listarAlunos(usuario);
+                    }
+                case "Coordenacao":
+                    switch (instrucao) {
+                        case "1":
+                            CoordenacaoFactory.cadastrarAluno();
+                            break;
+                        case "2":
+                            CoordenacaoFactory.cadastrarProfessor();
+                            break;
+                        case "3":
+                            CoordenacaoFactory.cadastrarCurso();
+                            break;
+                        case "4":
+                            CoordenacaoFactory.cadastrarCurriculo();
+                            break;
+                        default:
+                            break;
+                    }
+                default:
+                    break;
+            }
         }
     }
 
@@ -79,7 +117,7 @@ public class App {
             instrucao = ScannerUtils.lerInstrucao("Escolha uma opção: ", scanner);
 
             if (!instrucao.equals("0")) {
-                App.ProcessarInstrucao(instrucao, usuario);
+                App.ProcessarInstrucao(scanner, instrucao, usuario);
             }
         } while (!instrucao.equals("0"));
 
