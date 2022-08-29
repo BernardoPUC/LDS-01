@@ -52,6 +52,11 @@ public class App {
     private static void ProcessarInstrucao(String instrucao, Usuario usuario) {
         if (usuario == null) {
             if (instrucao.equals("1")) {
+                Usuario usuarioEncontrado = AuthFactory.Autenticar(scanner);
+
+                if (usuarioEncontrado != null) {
+                    usuario = usuarioEncontrado;
+                }
             }
         } else {
 
