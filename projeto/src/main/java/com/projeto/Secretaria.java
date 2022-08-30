@@ -35,10 +35,10 @@ public class Secretaria {
       aluno.removerDisciplina(disciplina);
     }
 
-    public void MatricularAluno(Aluno aluno) {
-      Optional<Aluno> alunoComMesmaMatricula = List.copyOf(this.alunos.values()).stream().filter(a -> a.getMatricula().equals(aluno.getMatricula())).findFirst();
+    public void MatricularAluno(Aluno aluno) throws IllegalArgumentException {
+      Aluno alunoComMesmaMatricula = this.alunos.get(aluno.getMatricula());
 
-      if (!alunoComMesmaMatricula.isEmpty()) {
+      if (alunoComMesmaMatricula != null) {
         throw new IllegalArgumentException("Já existe um aluno com essa matricula");
       }
 

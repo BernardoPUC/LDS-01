@@ -5,6 +5,7 @@ import java.util.List;
 public class Aluno extends Usuario {
   private static final int MAX_DISCIPLINAS_OBG = 4;
   private static final int MAX_DISCIPLINAS_OPT = 2;
+  private static int count = 0;
 
   private String matricula;
   private Curso curso;
@@ -12,9 +13,9 @@ public class Aluno extends Usuario {
   private int disciplinasOpt = 0;
   private List<Disciplina> disciplinasMatriculadas;
 
-  public Aluno(String matricula, String nome, String login, String email, String senha) {
+  public Aluno(String nome, String login, String email, String senha) {
     super(nome, login, email, senha);
-    this.setMatricula(matricula);
+    this.setMatricula(Integer.toString(++count));
   }
 
   public List<Disciplina> ListarDisciplinasMatriculadas() {
