@@ -76,7 +76,7 @@ public class App {
                     break;
                 case "Professor":
                     if (instrucao.equals("1")) {
-                        ProfessorFactory.ListarAlunos(usuario);
+                        ProfessorFactory.ListarAlunos(scanner, usuario);
                     }
                 case "Coordenacao":
                     switch (instrucao) {

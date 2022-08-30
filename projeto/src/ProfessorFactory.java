@@ -7,7 +7,7 @@ public class ProfessorFactory {
     System.out.println("============================================================");
   }
 
-  public static void ListarAlunos(Professor professor) {
+  public static void ListarAlunos(Scanner scanner, Professor professor) {
     ProfessorFactory.PrintMenu();
 
     String instrucao = ScannerUtils.lerInstrucao(scanner);
