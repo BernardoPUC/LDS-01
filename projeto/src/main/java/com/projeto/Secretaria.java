@@ -2,6 +2,7 @@ package com.projeto;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Secretaria {
     private List<Professor> professores;
@@ -32,6 +33,16 @@ public class Secretaria {
 
     public void SolicitarCancelamentoMatricula(Aluno aluno, Disciplina disciplina) {
       aluno.removerDisciplina(disciplina);
+    }
+
+    public void MatricularAluno(Aluno aluno) {
+      Optional<Aluno> alunoComMesmaMatricula = List.copyOf(this.alunos.values()).stream().filter(a -> a.getMatricula().equals(aluno.getMatricula())).findFirst();
+
+      if (!alunoComMesmaMatricula.isEmpty()) {
+        throw new IllegalArgumentException("Já existe um aluno com essa matricula");
+      }
+
+      this.alunos.putIfAbsent(aluno.getMatricula(), aluno);
     }
 
     public void InscreverParaSemestre(Aluno aluno) {
