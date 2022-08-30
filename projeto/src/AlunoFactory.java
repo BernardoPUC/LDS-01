@@ -1,5 +1,5 @@
 public class AlunoFactory {
-  private static void printMenuMatricular() {
+  private static void PrintMenuMatricular() {
     System.out.println("=================================================");
     System.out.println("== 1 - Listar disciplinas                      ==");
     System.out.println("== 2 - Escolher disciplina                     ==");
@@ -8,8 +8,8 @@ public class AlunoFactory {
     System.out.println("=================================================");
   }
 
-  public static void matricular(Scanner scanner, Aluno aluno) {
-    AlunoFactory.printMenuMatricular();
+  public static void Matricular(Scanner scanner, Aluno aluno) {
+    AlunoFactory.PrintMenuMatricular();
     Disciplina disciplinaEscolhida = null;
 
     String instrucao = ScannerUtils.lerInstrucao(scanner);
@@ -51,7 +51,7 @@ public class AlunoFactory {
     } while (!instrucao.equals("0"));
   }
 
-  private static void printMenuCancelarMatricula() {
+  private static void PrintMenuCancelarMatricula() {
     System.out.println("====================================================");
     System.out.println("== 1 - Listar disciplinas                         ==");
     System.out.println("== 2 - Escolher disciplina                        ==");
@@ -60,8 +60,8 @@ public class AlunoFactory {
     System.out.println("====================================================");
   }
 
-  public static void cancelarMatricula(Scanner scanner, Aluno aluno) {
-    AlunoFactory.printMenuCancelarMatricula();
+  public static void CancelarMatricula(Scanner scanner, Aluno aluno) {
+    AlunoFactory.PrintMenuCancelarMatricula();
     Disciplina disciplinaEscolhida = null;
 
     String instrucao = ScannerUtils.lerInstrucao(scanner);

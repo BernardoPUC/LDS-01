@@ -65,10 +65,10 @@ public class App {
                 case "Aluno":
                     switch (instrucao) {
                         case "1":
-                            AlunoFactory.matricular(scanner, usuario);
+                            AlunoFactory.Matricular(scanner, usuario);
                             break;
                         case "2": 
-                            AlunoFactory.cancelarMatricula(scanner, usuario);
+                            AlunoFactory.CancelarMatricula(scanner, usuario);
                             break;
                         default:
                             break;
@@ -76,7 +76,7 @@ public class App {
                     break;
                 case "Professor":
                     if (instrucao.equals("1")) {
-                        ProfessorFactory.listarAlunos(usuario);
+                        ProfessorFactory.ListarAlunos(usuario);
                     }
                 case "Coordenacao":
                     switch (instrucao) {
