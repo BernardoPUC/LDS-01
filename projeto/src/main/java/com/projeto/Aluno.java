@@ -7,6 +7,7 @@ public class Aluno extends Usuario {
   private static final int MAX_DISCIPLINAS_OPT = 2;
 
   private String matricula;
+  private Curso curso;
   private int disciplinasObg = 0;
   private int disciplinasOpt = 0;
   private List<Disciplina> disciplinasMatriculadas;
@@ -76,5 +77,13 @@ public class Aluno extends Usuario {
   
   public void setMatricula(String matricula) {
     this.matricula = matricula;
+  }
+
+  public Curso getCurso() {
+    return curso;
+  }
+
+  public void setCurso(Curso curso) {
+    this.curso = curso;
   }
 }

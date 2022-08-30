@@ -8,6 +8,7 @@ public class Disciplina {
 
   private String codigo;
   private TipoDisciplina tipo;
+  private Curso curso;
   private Boolean ativa;
   private Double valor;
   private List<Aluno> alunos;
@@ -73,4 +74,11 @@ public class Disciplina {
     this.valor = valor;
   }
 
+  public Curso getCurso() {
+    return curso;
+  }
+
+  public void setCurso(Curso curso) {
+    this.curso = curso;
+  }
 }
