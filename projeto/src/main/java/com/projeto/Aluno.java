@@ -13,9 +13,11 @@ public class Aluno extends Usuario {
   private int disciplinasOpt = 0;
   private List<Disciplina> disciplinasMatriculadas;
 
-  public Aluno(String nome, String login, String email, String senha) {
+  public Aluno(String nome, String login, String email, String senha, Curso curso) {
     super(nome, login, email, senha);
     this.setMatricula(Integer.toString(++count));
+    this.setCurso(curso);
+    this.setDisciplinasMatriculadas(new ArrayList<Disciplina>());
   }
 
   public List<Disciplina> ListarDisciplinasMatriculadas() {
