@@ -3,6 +3,7 @@ public class ProfessorFactory {
     System.out.println("============================================================");
     System.out.println("== 1 - Listar os alunos de todas as disciplinas           ==");
     System.out.println("== 2 - Listar os alunos de uma disciplina especifica      ==");
+    System.out.println("== 0 - Voltar                                             ==");
     System.out.println("============================================================");
   }
 

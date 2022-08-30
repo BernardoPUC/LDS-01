@@ -81,16 +81,16 @@ public class App {
                 case "Coordenacao":
                     switch (instrucao) {
                         case "1":
-                            CoordenacaoFactory.cadastrarAluno();
+                            CoordenacaoFactory.CadastrarAluno();
                             break;
                         case "2":
-                            CoordenacaoFactory.cadastrarProfessor();
+                            CoordenacaoFactory.CadastrarProfessor();
                             break;
                         case "3":
-                            CoordenacaoFactory.cadastrarCurso();
+                            CoordenacaoFactory.CadastrarCurso();
                             break;
                         case "4":
-                            CoordenacaoFactory.cadastrarCurriculo();
+                            CoordenacaoFactory.CadastrarCurriculo();
                             break;
                         default:
                             break;
@@ -104,6 +104,7 @@ public class App {
     private static void CarregarDados() {}
 
     private static void SalvarDados() {}
+
     public static void main(String[] args) throws Exception {
         Usuario usuario = null;
         Scanner scanner = new Scanner(System.in);
