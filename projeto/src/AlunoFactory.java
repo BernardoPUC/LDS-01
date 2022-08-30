@@ -19,7 +19,7 @@ public class AlunoFactory {
 
       switch (instrucao) {
         case "1":
-          secretaria.ListarDisciplinas().stream().forEach(System.out::println);
+          secretaria.ListarDisciplinas().stream().filter(disciplina -> disciplina.getCurso().equals(aluno.getCurso())).forEach(System.out::println);
           break;
         case "2": {
           do {
