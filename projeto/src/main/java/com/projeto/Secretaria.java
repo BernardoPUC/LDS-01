@@ -53,6 +53,14 @@ public class Secretaria {
 
     }
 
+    public Curso BuscarCurso(String idCurso) {
+      if (this.cursos == null) {
+        return null;
+      }
+
+      return this.cursos.get(idCurso);
+    }
+
     public List<Professor> ListarProfessores() {
       return this.professores;
     }
@@ -63,6 +71,14 @@ public class Secretaria {
       }
 
       return List.copyOf(this.alunos.values());
+    }
+
+    public List<Curso> ListarCursos() {
+      if (this.cursos == null) {
+        return null;
+      }
+
+      return List.copyOf(this.cursos.values());
     }
 
     public List<Disciplina> ListarDisciplinas() {
