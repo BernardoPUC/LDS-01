@@ -8,8 +8,17 @@ public class Secretaria {
     private Map<String, Aluno> alunos;
     private SistemaFinanceiro sistemaFinanceiro;
     private Boolean permiteAlteracaoDeMatricula;
+    private static Secretaria secretaria;
 
-    public Secretaria() {}
+    private Secretaria() {}
+
+    public static Secretaria getInstance() {
+      if (secretaria == null) {
+        secretaria = new Secretaria();
+      }
+
+      return secretaria;
+    }
 
     public Curriculo GerarCurriculo() {
       return new Curriculo();
@@ -29,5 +38,17 @@ public class Secretaria {
 
     private void NotificarFinanceiro(Aluno aluno) {
 
+    }
+
+    public List<Professor> ListarProfessores() {
+      return this.professores;
+    }
+
+    public List<Aluno> ListarAlunos() {
+      return this.alunos;
+    }
+
+    public List<Disciplina> ListarDisciplinas() {
+      return this.disciplinas;
     }
 }
