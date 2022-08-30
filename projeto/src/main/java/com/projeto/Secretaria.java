@@ -47,7 +47,11 @@ public class Secretaria {
     }
 
     public List<Aluno> ListarAlunos() {
-      return List.of(this.alunos.values());
+      if (this.alunos == null) {
+        return null;
+      }
+
+      return List.copyOf(this.alunos.values());
     }
 
     public List<Disciplina> ListarDisciplinas() {

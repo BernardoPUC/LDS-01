@@ -14,18 +14,18 @@ public class ScannerUtils {
     return scanner.nextLine();
   }
 
-  public static String lerValor(Scanner scanner, String label) {
-    return lerValor(scanner, label, List.of());
+  public static String lerValor(String label, Scanner scanner) {
+    return lerValor(label, scanner, List.of());
   }
 
-  public static String lerValor(Scanner scanner, String label, List<String> restricao) {
+  public static String lerValor(String label, Scanner scanner, List<String> restricao) {
     String valor = "";
     Boolean invalido = false;
 
     do {
       System.out.println(label);
       valor = scanner.nextLine();
-      invalido = valor == "" || (restricao.size() >= 1 && !restricao.contains(valor));
+      invalido = valor.equals("") || (restricao.size() >= 1 && !restricao.contains(valor));
 
       if (invalido) {
         System.out.println("Valor inválido.\n");
