@@ -76,6 +76,7 @@ public class Secretaria {
 
   public void AdicionarDisciplina(Disciplina disciplina) {
     this.disciplinas.add(disciplina);
+    this.AtribuirDisciplina(disciplina, disciplina.getProfessor());
   }
 
   public void AtribuirDisciplina(Disciplina disciplina, Professor professor) {
