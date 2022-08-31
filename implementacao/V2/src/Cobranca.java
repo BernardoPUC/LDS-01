@@ -1,8 +1,11 @@
-public class Cobranca {
+import java.io.Serializable;
+
+public class Cobranca implements Serializable {
   private double valor;
   private Aluno devedor;
   private Boolean ativa;
   private Boolean paga;
+  static final long serialVersionUID = 91238912831L; // Serialização
 
   public Cobranca(double valor, Aluno devedor, Boolean ativa) {
     this.setValor(valor);
@@ -38,5 +41,12 @@ public class Cobranca {
 
   public Boolean getPaga() {
     return paga;
+  }
+
+  @Override
+  public String toString() {
+    String ativa = this.getAtiva() ? "Sim" : "Não";
+
+    return "Valor: " + this.getValor() + " | Ativa: " + ativa;
   }
 }

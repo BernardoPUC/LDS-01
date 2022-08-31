@@ -13,19 +13,23 @@ public class AlunoFactory {
   }
 
   public static void Matricular(Scanner scanner, Usuario usuario) {
-    Aluno aluno = (Aluno) usuario;
-    AlunoFactory.PrintMenuMatricular();
-    Disciplina disciplinaEscolhida = null;
+    Secretaria secretaria = Secretaria.getInstance();
 
-    String instrucao = ScannerUtils.lerInstrucao(scanner);
+    Aluno aluno = (Aluno) usuario;
+    Disciplina disciplinaEscolhida = null;
+    
+    String instrucao = "";
 
     do {
-      Secretaria secretaria = Secretaria.getInstance();
+      ScannerUtils.LimparTela();
+      AlunoFactory.PrintMenuMatricular();
+      instrucao = ScannerUtils.lerInstrucao(scanner);
 
       switch (instrucao) {
         case "1":
-          secretaria.ListarDisciplinas().stream().filter(disciplina -> disciplina.getCurso().equals(aluno.getCurso()))
+          secretaria.ListarDisciplinas().stream().filter(disciplina -> disciplina.getCurso().getId() == aluno.getCurso().getId())
               .forEach(System.out::println);
+          ScannerUtils.Pausa(scanner);
           break;
         case "2": {
           do {
@@ -34,7 +38,7 @@ public class AlunoFactory {
             Optional<Disciplina> disciplinaEncontrada = secretaria.ListarDisciplinas().stream()
                 .filter(disciplina -> Integer.toString(disciplina.getCodigo()).equals(codigo)).findFirst();
 
-            if (!disciplinaEncontrada.isEmpty() && disciplinaEncontrada.get().getCurso().equals(aluno.getCurso())) {
+            if (!disciplinaEncontrada.isEmpty() && disciplinaEncontrada.get().getCurso().getId() == aluno.getCurso().getId()) {
               disciplinaEscolhida = disciplinaEncontrada.get();
             } else {
               System.out.println(disciplinaEncontrada == null ? "Não existe uma disciplina com o código informado"
@@ -51,6 +55,8 @@ public class AlunoFactory {
           }
 
           secretaria.SolicitarMatricula(aluno, disciplinaEscolhida);
+          ScannerUtils.Pausa(scanner);
+          instrucao = "0";
           break;
         }
         default:
@@ -70,17 +76,21 @@ public class AlunoFactory {
 
   public static void CancelarMatricula(Scanner scanner, Usuario usuario) {
     Aluno aluno = (Aluno) usuario;
-    AlunoFactory.PrintMenuCancelarMatricula();
+    Secretaria secretaria = Secretaria.getInstance();
+
     Disciplina disciplinaEscolhida = null;
-
-    String instrucao = ScannerUtils.lerInstrucao(scanner);
-
+    
+    String instrucao = "";
+    
     do {
-      Secretaria secretaria = Secretaria.getInstance();
+      ScannerUtils.LimparTela();
+      AlunoFactory.PrintMenuCancelarMatricula();
+      instrucao = ScannerUtils.lerInstrucao(scanner);
 
       switch (instrucao) {
         case "1":
           aluno.ListarDisciplinasMatriculadas().stream().forEach(System.out::println);
+          ScannerUtils.Pausa(scanner);
           break;
         case "2": {
           do {
@@ -104,7 +114,8 @@ public class AlunoFactory {
             break;
           }
 
-          secretaria.SolicitarMatricula(aluno, disciplinaEscolhida);
+          secretaria.SolicitarCancelamentoMatricula(aluno, disciplinaEscolhida);
+          instrucao = "0";
           break;
         }
         default:

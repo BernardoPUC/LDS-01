@@ -1,11 +1,7 @@
-import java.util.List;
-
 public class SistemaFinanceiro {
-  private List<Cobranca> cobrancas;
   private static SistemaFinanceiro sistemaFinanceiro;
 
-  private SistemaFinanceiro() {
-  }
+  private SistemaFinanceiro() {}
 
   public static SistemaFinanceiro getInstance() {
     if (SistemaFinanceiro.sistemaFinanceiro == null) {
@@ -26,7 +22,6 @@ public class SistemaFinanceiro {
     Cobranca cobranca = new Cobranca(valor, aluno, true);
 
     aluno.AdicionarCobranca(cobranca);
-    this.cobrancas.add(cobranca);
   }
 
 }

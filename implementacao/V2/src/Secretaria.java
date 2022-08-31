@@ -41,7 +41,6 @@ public class Secretaria {
     
     alunos.stream().forEach(a -> {
       secretaria.MatricularAluno((Aluno) a);
-      System.out.println("Aluno > " + a);
     });
 
     cursos.stream().forEach(c -> {
@@ -73,6 +72,10 @@ public class Secretaria {
 
   public void AdicionarProfessor(Professor professor) {
     this.professores.add(professor);
+  }
+
+  public void AdicionarDisciplina(Disciplina disciplina) {
+    this.disciplinas.add(disciplina);
   }
 
   public void AtribuirDisciplina(Disciplina disciplina, Professor professor) {

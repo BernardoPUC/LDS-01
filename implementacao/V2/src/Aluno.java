@@ -60,6 +60,7 @@ public class Aluno extends Usuario implements Serializable {
       String tipoDisciplina) {
     if (curDisciplinasMatriculadas < maxPossivel) {
       disciplina.Matricular(this);
+      this.disciplinasMatriculadas.add(disciplina);
     } else {
       throw new IllegalStateException(
           "Só é possivel se matricular em no máximo " + maxPossivel + " disciplinas " + tipoDisciplina);
@@ -76,6 +77,7 @@ public class Aluno extends Usuario implements Serializable {
       }
 
       disciplina.CancelarMatricula(this);
+      this.disciplinasMatriculadas.remove(disciplina);
 
       if (isDisciplinaObrigatoria) {
         this.disciplinasObg--;
