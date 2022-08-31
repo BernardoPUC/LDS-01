@@ -1,5 +1,7 @@
 package com.projeto;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class Secretaria {
     }
 
     public Curriculo GerarCurriculo() {
-      return new Curriculo();
+      // return new Curriculo();
     }
     
     public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {
@@ -55,8 +57,8 @@ public class Secretaria {
       this.professores.add(professor);
     }
 
-    public void AtribuirDisciplina(Disciplina desciplina, Professor professor) {
-      Boolean disciplinaEncontrada = professor.ListarDisciplinas().stream().filter(d -> d.getCodigo().equals(disciplina.getCodigo())).findFirst().isPresent();
+    public void AtribuirDisciplina(Disciplina disciplina, Professor professor) {
+      Boolean disciplinaEncontrada = professor.ListarDisciplinas().stream().filter(d -> d.getCodigo() == disciplina.getCodigo()).findFirst().isPresent();
       Secretaria secretaria = Secretaria.getInstance();
   
       if (!disciplinaEncontrada) {

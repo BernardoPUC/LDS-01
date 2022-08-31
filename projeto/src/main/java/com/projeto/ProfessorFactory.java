@@ -28,7 +28,6 @@ public class ProfessorFactory {
           break;
         }
         case "2": {
-          String codigo;
           List<Disciplina> disciplinas = professor.ListarDisciplinas();
           Disciplina disciplinaEscolhida = null;
 
@@ -37,9 +36,9 @@ public class ProfessorFactory {
           System.out.println("============================================================\n");
 
           do {
-            codigo = ScannerUtils.lerInstrucao("Digite o código da disciplina escolhida: ", scanner);
+            String codigo = ScannerUtils.lerInstrucao("Digite o código da disciplina escolhida: ", scanner);
 
-            Optional<Disciplina> disciplinaEncontrada = disciplinas.stream().filter(disciplina -> disciplina.getCodigo().equals(codigo)).findFirst();
+            Optional<Disciplina> disciplinaEncontrada = disciplinas.stream().filter(disciplina -> Integer.toString(disciplina.getCodigo()).equals(codigo)).findFirst();
 
             if (!disciplinaEncontrada.isEmpty()) {
               disciplinaEscolhida = disciplinaEncontrada.get();

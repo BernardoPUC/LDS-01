@@ -31,7 +31,7 @@ public class AlunoFactory {
           do {
             String codigo = ScannerUtils.lerInstrucao("Digite o código da disciplina escolhida: ", scanner);
 
-            Optional<Disciplina> disciplinaEncontrada = secretaria.ListarDisciplinas().stream().filter(disciplina -> disciplina.getCodigo().equals(codigo)).findFirst();
+            Optional<Disciplina> disciplinaEncontrada = secretaria.ListarDisciplinas().stream().filter(disciplina -> Integer.toString(disciplina.getCodigo()).equals(codigo)).findFirst();
 
             if (!disciplinaEncontrada.isEmpty() && disciplinaEncontrada.get().getCurso().equals(aluno.getCurso())) {
               disciplinaEscolhida = disciplinaEncontrada.get();
@@ -84,7 +84,7 @@ public class AlunoFactory {
           do {
             String codigo = ScannerUtils.lerInstrucao("Digite o código da disciplina escolhida: ", scanner);
 
-            Optional<Disciplina> disciplinaEncontrada = aluno.ListarDisciplinasMatriculadas().stream().filter(disciplina -> disciplina.getCodigo().equals(codigo)).findFirst();
+            Optional<Disciplina> disciplinaEncontrada = aluno.ListarDisciplinasMatriculadas().stream().filter(disciplina -> Integer.toString(disciplina.getCodigo()).equals(codigo)).findFirst();
 
             if (!disciplinaEncontrada.isEmpty()) {
               disciplinaEscolhida = disciplinaEncontrada.get();

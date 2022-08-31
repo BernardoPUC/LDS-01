@@ -15,7 +15,7 @@ public class Curriculo {
     this.codigo = ++Curriculo.nextCodigo;
   }
 
-  public String getCodigo() {
+  public int getCodigo() {
     return codigo;
   }
 

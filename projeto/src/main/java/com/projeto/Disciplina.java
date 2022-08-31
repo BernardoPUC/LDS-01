@@ -1,11 +1,12 @@
 package com.projeto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Disciplina {
   private static final int LIMITE_ALUNOS = 60;
   private static final int MIN_ALUNOS = 3;
-  private static nextCodigo = 0;
+  private static int nextCodigo = 0;
 
   private Professor professor;
   private int codigo;
@@ -55,6 +56,10 @@ public class Disciplina {
 
   public int getCodigo() {
     return codigo;
+  }
+
+  public Professor getProfessor() {
+    return professor;
   }
   
   public TipoDisciplina getTipo() {

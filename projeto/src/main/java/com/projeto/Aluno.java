@@ -1,5 +1,6 @@
 package com.projeto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aluno extends Usuario {
@@ -17,7 +18,7 @@ public class Aluno extends Usuario {
     super(nome, login, email, senha);
     this.setMatricula(Integer.toString(++count));
     this.setCurso(curso);
-    this.setDisciplinasMatriculadas(new ArrayList<Disciplina>());
+    this.disciplinasMatriculadas = new ArrayList<Disciplina>();
   }
 
   public List<Disciplina> ListarDisciplinasMatriculadas() {

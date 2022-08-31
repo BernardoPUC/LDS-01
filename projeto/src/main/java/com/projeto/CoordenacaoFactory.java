@@ -1,9 +1,12 @@
 package com.projeto;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CoordenacaoFactory {
-  private void PrintMenuAluno() {
+  private static void PrintMenuAluno() {
     System.out.println("======================================================");
     System.out.println("== 1 - Cadastrar dados do aluno                     ==");
     System.out.println("== 2 - Escolher curso do aluno                      ==");
@@ -15,11 +18,11 @@ public class CoordenacaoFactory {
   public static void CadastrarAluno(Scanner scanner) {
     Secretaria secretaria = Secretaria.getInstance();
 
-    String nome;
-    String login;
-    String email;
-    String senha;
-    Curso curso;
+    String nome = "";
+    String login = "";
+    String email = "";
+    String senha = "";
+    Curso curso = null;
     String instrucao;
 
     do {
@@ -40,7 +43,7 @@ public class CoordenacaoFactory {
           cursos.stream().forEach(System.out::println);
           System.out.println("======================================================");
 
-          String idCurso = ScannerUtils.lerValor("Digite o id do curso desejado: ", scanner, cursos);
+          String idCurso = ScannerUtils.lerValor("Digite o id do curso desejado: ", scanner, cursos.stream().map(c -> Integer.toString(c.getId())).toList());
 
           curso = secretaria.BuscarCurso(idCurso);
           break;
@@ -61,10 +64,12 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarProfessor(Scanner scanner) {
-    nome = ScannerUtils.lerValor("Nome do professor: ", scanner);
-    login = ScannerUtils.lerValor("Login do professor: ", scanner);
-    email = ScannerUtils.lerValor("Email do professor: ", scanner);
-    senha = ScannerUtils.lerValor("Senha do professor: ", scanner);
+    Secretaria secretaria = Secretaria.getInstance();
+
+    String nome = ScannerUtils.lerValor("Nome do professor: ", scanner);
+    String login = ScannerUtils.lerValor("Login do professor: ", scanner);
+    String email = ScannerUtils.lerValor("Email do professor: ", scanner);
+    String senha = ScannerUtils.lerValor("Senha do professor: ", scanner);
 
     Professor professor = new Professor(nome, login, email, senha);
 
@@ -72,8 +77,21 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarCurso(Scanner scanner) {
-    nome = ScannerUtils.lerValor("Nome do curso: ", scanner);
-    qtdeCreditos = ScannerUtils.lerValor("Quantidade de créditos do curso: ", scanner);
+    Secretaria secretaria = Secretaria.getInstance();
+
+    String nome = ScannerUtils.lerValor("Nome do curso: ", scanner);
+    
+    int qtdeCreditos = -1;
+
+    do {
+      try {
+        String qtdeCreditosStr = ScannerUtils.lerValor("Quantidade de créditos do curso: ", scanner);
+
+        qtdeCreditos = Integer.parseInt(qtdeCreditosStr);
+      } catch (Exception e) {
+        System.out.println("O valor informado precisa ser um número");
+      }
+    } while (qtdeCreditos == -1);
 
     Curso curso = new Curso(nome, qtdeCreditos);
 
@@ -95,12 +113,13 @@ public class CoordenacaoFactory {
     System.out.println("======================================================");
   }
 
-  public static void GerarCurriculo(Scanner scannner) {
+  public static void GerarCurriculo(Scanner scanner) {
     CoordenacaoFactory.PrintMenuGerarCurriculo();
     Secretaria secretaria = Secretaria.getInstance();
     
     Curso curso;
     Map<String, Disciplina> disciplinasAdicionadas = new HashMap<String, Disciplina>();
+    String instrucao = "";
 
     do {
       CoordenacaoFactory.PrintMenuAluno();
@@ -114,7 +133,7 @@ public class CoordenacaoFactory {
           cursos.stream().forEach(System.out::println);
           System.out.println("======================================================");
 
-          String idCurso = ScannerUtils.lerValor("Digite o id do curso desejado: ", scanner, cursos.stream().map(c -> c.getId()));
+          String idCurso = ScannerUtils.lerValor("Digite o id do curso desejado: ", scanner, cursos.stream().map(c -> Integer.toString(c.getId())).toList());
 
           curso = secretaria.BuscarCurso(idCurso);
           break;
@@ -125,7 +144,7 @@ public class CoordenacaoFactory {
 
           do {
             CoordenacaoFactory.PrintMenuDisciplinas();
-            instrucaoDisciplinas = ScannerUtils.lerInstrucao();
+            instrucaoDisciplinas = ScannerUtils.lerInstrucao(scanner);
 
             switch (instrucaoDisciplinas) {
               case "1": {
@@ -135,9 +154,10 @@ public class CoordenacaoFactory {
                 break;
               }
               case "2": {
-                String disciplinaAdicionada = ScannerUtils.lerValor("Digite o código da disciplina a ser adicionada: ", scanner, disciplinas.map(d -> d.getCodigo()));
+                String disciplinaAdicionada = ScannerUtils.lerValor("Digite o código da disciplina a ser adicionada: ", scanner, disciplinas.stream().map(di -> Integer.toString(di.getCodigo())).toList());
+                Disciplina disciplinaInstance = disciplinas.stream().filter(d -> Integer.toString(d.getCodigo()).equals(disciplinaAdicionada)).findFirst().get();
 
-                disciplinasAdicionadas.putIfAbsent(disciplinaAdicionada, disciplinas.get(disciplinaAdicionada));
+                disciplinasAdicionadas.putIfAbsent(disciplinaAdicionada, disciplinaInstance);
               }
               default:
                 break;
