@@ -2,6 +2,21 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ScannerUtils {
+  /**
+   * Pausa para leitura de mensagens em console
+   * 
+   * @param teclado Scanner de leitura
+   */
+  public static void Pausa(Scanner teclado) {
+    System.out.println("\033[1;32mEnter para continuar.");
+    teclado.nextLine();
+  }
+
+  public static void LimparTela() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+  }
+
   public static String lerInstrucao(Scanner scanner) {
     return lerInstrucao("Escolha uma opção: ", scanner);
   }

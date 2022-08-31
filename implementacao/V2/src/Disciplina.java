@@ -20,6 +20,7 @@ public class Disciplina implements Serializable {
   public Disciplina(String nome, Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
     this.nome = nome;
     this.codigo = ++Disciplina.nextCodigo;
+    this.nome = nome;
     this.professor = professor;
     this.tipo = tipo;
     this.curso = curso;

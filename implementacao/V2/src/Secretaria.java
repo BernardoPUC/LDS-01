@@ -1,126 +1,137 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Secretaria extends Usuario {
-    private ArrayList<Object> professores;
-    private ArrayList<Object> alunos;
-    private ArrayList<Object> cursos;
-    private ArrayList<Object> disciplinas;
+public class Secretaria {
+  private List<Professor> professores;
+  private List<Disciplina> disciplinas;
+  private Map<Integer, Curso> cursos;
+  private Map<Integer, Aluno> alunos;
+  private SistemaFinanceiro sistemaFinanceiro;
+  // private Boolean permiteAlteracaoDeMatricula;
+  private static Secretaria secretaria;
 
-    public Secretaria(String nome, String login, String email, String senha) {
-        super(nome, login, email, senha);
-        this.professores = new ArrayList<Object>();
-        this.alunos = new ArrayList<Object>();
-        this.cursos = new ArrayList<Object>();
-        this.disciplinas = new ArrayList<Object>();
+  private Secretaria() {
+    this.professores = new ArrayList<Professor>();
+    this.disciplinas = new ArrayList<Disciplina>();
+    this.cursos = new HashMap<Integer, Curso>();
+    this.alunos = new HashMap<Integer, Aluno>();
+    this.sistemaFinanceiro = SistemaFinanceiro.getInstance();
+  }
+
+  public static Secretaria getInstance() {
+    if (secretaria == null) {
+      secretaria = new Secretaria();
     }
 
-    /**
-     * Salva os objetos em formato serializado (Object)
-     * 
-     * @param lista Lista com os objetos
-     * @param arq   Nome do arquivo a ser gerado
-     */
-    public void salvarBinario(ArrayList<Object> lista, String arq) {
-        ObjectOutputStream saida = null;
-        try {
-            saida = new ObjectOutputStream(new FileOutputStream(arq));
-            saida.writeObject(lista);
-            saida.close();
-        } catch (FileNotFoundException fe) {
-            System.out.println(
-                    "\033[1;31mArquivo não encontrado, ou permissão negada. Tente novamente com outro arquivo");
-        } catch (IOException ex) {
-            System.out.println("\033[1;31mProblemas na operação de E/S. Contacte o suporte");
-            System.out.println(ex.getMessage());
-        }
+    return secretaria;
+  }
+
+  public static void InicializarDados(List<Object> professores, List<Object> alunos, List<Object> cursos, List<Object> disciplinas) {
+    Secretaria secretaria = Secretaria.getInstance();
+
+    if (professores.size() > 0) {
+      secretaria.professores = professores.stream().map(p -> (Professor) p).toList();
     }
 
-    /**
-     * Carrega os objetos de um arquivo serializado (Object)
-     * 
-     * @param arq Nome do arquivo de dados
-     * @return Uma lista genérica com a classe do arquivo passado como parâmetro.
-     *         A lista pode estar vazia ou nula em caso de exceções.
-     */
-    public ArrayList<Object> carregarBinario(String arq) {
-        ArrayList<Object> lista = null;
+    if (disciplinas.size() > 0) {
+      secretaria.disciplinas = disciplinas.stream().map(d -> (Disciplina) d).toList();
+    }
+    
+    alunos.stream().forEach(a -> {
+      secretaria.MatricularAluno((Aluno) a);
+    });
 
-        try {
-            ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(arq));
-            lista = (ArrayList<Object>) entrada.readObject();
-            entrada.close();
-        } catch (FileNotFoundException fe) {
-            lista = new ArrayList<Object>();
-        } catch (ClassNotFoundException ce) {
-            System.out.println("\033[1;31mProblema na conversão dos dados: classe inválida. Contacte o suporte.");
-        } catch (IOException ie) {
-            System.out.println("\033[1;31mProblemas na operação de E/S. Contacte o suporte");
-            System.out.println(ie.getMessage());
-        }
+    cursos.stream().forEach(c -> {
+      secretaria.AdicionarCurso((Curso) c);
+    });
+  }
 
-        return lista;
+  public void GerarCurriculo(Curriculo curriculo, Curso curso) {
+    curso.AtualizarCurriculo(curriculo);
+  }
+
+  public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {
+    aluno.AddDisciplina(disciplina);
+  }
+
+  public void SolicitarCancelamentoMatricula(Aluno aluno, Disciplina disciplina) {
+    aluno.RemoverDisciplina(disciplina);
+  }
+
+  public void MatricularAluno(Aluno aluno) throws IllegalArgumentException {
+    Aluno alunoComMesmaMatricula = this.alunos.get(aluno.getMatricula());
+
+    if (alunoComMesmaMatricula != null) {
+      throw new IllegalArgumentException("Já existe um aluno com essa matricula");
     }
 
-    /**
-     * Getters
-     */
-    public ArrayList<Object> getProfessores() {
-        return this.professores;
+    this.alunos.putIfAbsent(aluno.getMatricula(), aluno);
+  }
+
+  public void AdicionarProfessor(Professor professor) {
+    this.professores.add(professor);
+  }
+
+  public void AdicionarDisciplina(Disciplina disciplina) {
+    this.disciplinas.add(disciplina);
+  }
+
+  public void AtribuirDisciplina(Disciplina disciplina, Professor professor) {
+    Boolean disciplinaEncontrada = professor.ListarDisciplinas().stream()
+        .filter(d -> d.getCodigo() == disciplina.getCodigo()).findFirst().isPresent();
+
+    if (!disciplinaEncontrada) {
+      if (disciplina.getProfessor() != null) {
+        disciplina.getProfessor().RemoverDisciplina(disciplina);
+      }
+
+      professor.AdicionarDisciplina(disciplina);
+    }
+  }
+
+  public void AdicionarCurso(Curso curso) {
+    this.cursos.putIfAbsent(curso.getId(), curso);
+  }
+
+  public void InscreverParaSemestre(Aluno aluno) {
+    this.NotificarFinanceiro(aluno);
+  }
+
+  private void NotificarFinanceiro(Aluno aluno) {
+    this.sistemaFinanceiro.GerarCobranca(aluno);
+  }
+
+  public Curso BuscarCurso(String idCurso) {
+    if (this.cursos == null) {
+      return null;
     }
 
-    public ArrayList<Object> getAlunos() {
-        return this.alunos;
+    return this.cursos.get(Integer.parseInt(idCurso));
+  }
+
+  public List<Professor> ListarProfessores() {
+    return this.professores;
+  }
+
+  public List<Aluno> ListarAlunos() {
+    if (this.alunos == null) {
+      return null;
     }
 
-    public ArrayList<Object> getDisciplinas() {
-        return this.disciplinas;
+    return List.copyOf(this.alunos.values());
+  }
+
+  public List<Curso> ListarCursos() {
+    if (this.cursos == null) {
+      return null;
     }
 
-    public ArrayList<Object> getCursos() {
-        return this.cursos;
-    }
+    return List.copyOf(this.cursos.values());
+  }
 
-    /**
-     * Setters
-     */
-    public void setProfessores(ArrayList<Object> professores) {
-        this.professores = professores;
-    }
-
-    public void setAlunos(ArrayList<Object> alunos) {
-        this.alunos = alunos;
-    }
-
-    public void setDisciplinas(ArrayList<Object> disciplinas) {
-        this.disciplinas = disciplinas;
-    }
-
-    public void setCursos(ArrayList<Object> cursos) {
-        this.cursos = cursos;
-    }
-
-    /**
-     * Add
-     */
-    public void addProfessor(Professor professor) {
-        this.professores.add(professor);
-    }
-
-    public void addAluno(Usuario aluno) {
-        this.alunos.add(aluno);
-    }
-
-    public void addDisciplina(Disciplina disciplina) {
-        this.disciplinas.add(disciplina);
-    }
-
-    public void addCurso(Curso curso) {
-        this.cursos.add(curso);
-    }
+  public List<Disciplina> ListarDisciplinas() {
+    return this.disciplinas;
+  }
 }

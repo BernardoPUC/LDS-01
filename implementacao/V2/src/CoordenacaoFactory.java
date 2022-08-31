@@ -14,7 +14,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarAluno(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = "";
     String login = "";
@@ -52,6 +52,7 @@ public class CoordenacaoFactory {
 
           try {
             secretaria.MatricularAluno(aluno);
+            instrucao = "0";
           } catch (Exception e) {
             System.out.println(e);
           }
@@ -63,7 +64,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarProfessor(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = ScannerUtils.lerValor("Nome do professor: ", scanner);
     String login = ScannerUtils.lerValor("Login do professor: ", scanner);
@@ -76,7 +77,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarCurso(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = ScannerUtils.lerValor("Nome do curso: ", scanner);
 
@@ -97,11 +98,137 @@ public class CoordenacaoFactory {
     secretaria.AdicionarCurso(curso);
   }
 
+  private static void PrintMenuCadastrarDisciplina() {
+    System.out.println("======================================================");
+    System.out.println("== 1 - Definir curso                                ==");
+    System.out.println("== 2 - Definir professor                            ==");
+    System.out.println("== 3 - Definir dados da disciplina                  ==");
+    System.out.println("== 4 - Cadastrar disciplina                         ==");
+    System.out.println("== 0 - Voltar                                       ==");
+    System.out.println("======================================================");
+  }
+
+  public static void CadastrarDisciplina(Scanner scanner) {
+    Secretaria secretaria = Secretaria.getInstance();
+    
+    String nome = "";
+    Curso curso = null;
+    Professor professor = null;
+    Double valor = -1D;
+    TipoDisciplina tipo = null;
+
+    String instrucao;
+
+    do {
+      CoordenacaoFactory.PrintMenuCadastrarDisciplina();
+      instrucao = ScannerUtils.lerInstrucao(scanner);
+
+      switch (instrucao) {
+        case "1":
+          List<Curso> cursos = secretaria.ListarCursos();
+
+          System.out.println("======================================================");
+          cursos.stream().forEach(System.out::println);
+          System.out.println("======================================================");
+
+          String idCurso = ScannerUtils.lerValor("Digite o id do curso desejado: ", scanner,
+              cursos.stream().map(c -> Integer.toString(c.getId())).toList());
+
+          curso = secretaria.BuscarCurso(idCurso);
+          break;
+        case "2": {
+          List<Professor> professores = secretaria.ListarProfessores();
+
+          System.out.println("======================================================");
+          professores.stream().forEach(p -> System.out.println("N: " + (professores.indexOf(p) + 1) + " | " + p));
+          System.out.println("======================================================");
+
+          int idProfessor = -1;
+
+          do {
+            try {
+              String idProfessorStr = ScannerUtils.lerValor("Digite o numero do professor desejado: ", scanner);
+
+              int idEscolhido = Integer.parseInt(idProfessorStr);
+
+              if (idEscolhido > 0 && idEscolhido < (professores.size() + 1)) {
+                idProfessor = idEscolhido - 1;
+              }
+            } catch (Exception e) {
+              System.out.println("Você precisa inserir um numero valido");
+            }
+          } while (idProfessor == -1);
+
+          professor = professores.get(idProfessor);
+          break;
+        }    
+        case "3": {
+          nome = ScannerUtils.lerValor("Digite o nome da disciplina: ", scanner);
+
+          String disciplinaObrigatoria = ScannerUtils.lerValor("A disciplina é obrigatória? (s/n)", scanner, List.of("s", "n"));
+          tipo = disciplinaObrigatoria.equals("s") ? TipoDisciplina.OBRIGATORIA : TipoDisciplina.OPTATIVA;
+
+          do {
+            try {
+              String valorStr = ScannerUtils.lerValor("Digite o valor da disciplina: ", scanner);
+
+              Double valorEscolhido = Double.parseDouble(valorStr);
+
+              if (valorEscolhido >= 0D) {
+                valor = valorEscolhido;
+              }
+            } catch (Exception e) {
+              System.out.println("O valor precisa ser um número válido");
+            }
+          } while (valor == -1D);
+
+          break;
+        }
+        case "4": {
+          if (nome.equals("")) {
+            System.out.println("Você precisa definir um nome para a disciplina");
+            break;
+          }
+
+          if (tipo == null) {
+            System.out.println("Você precisa definir um tipo para a disciplina");
+            break;
+          }
+
+          if (curso == null) {
+            System.out.println("Você precisa definir um curso para a disciplina");
+            break;
+          }
+
+          if (professor == null) {
+            System.out.println("Você precisa definir um professor para a disciplina");
+            break;
+          }
+
+          if (valor < 0D) {
+            System.out.println("Você precisa definir um valor para a disciplina");
+            break;
+          }
+
+          Disciplina disciplina = new Disciplina(nome, professor, tipo, curso, valor);
+
+          secretaria.AdicionarDisciplina(disciplina);
+          instrucao = "0";
+
+          break;
+        }
+        default:
+          break;
+      }
+    } while (!instrucao.equals("0"));
+  }
+
   private static void PrintMenuGerarCurriculo() {
     System.out.println("======================================================");
     System.out.println("== 1 - Definir curso                                ==");
     System.out.println("== 2 - Definir disciplinas                          ==");
     System.out.println("== 3 - Salvar cadastro                              ==");
+    System.out.println("== 0 - Voltar                                       ==");
     System.out.println("======================================================");
   }
 
@@ -110,19 +237,20 @@ public class CoordenacaoFactory {
     System.out.println("== 1 - Listar disciplinas                           ==");
     System.out.println("== 2 - Adicionar disciplina                         ==");
     System.out.println("== 3 - Remover disciplina                           ==");
+    System.out.println("== 0 - Voltar                                       ==");
     System.out.println("======================================================");
   }
 
   public static void GerarCurriculo(Scanner scanner) {
-    CoordenacaoFactory.PrintMenuGerarCurriculo();
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     Curso curso = null;
     Map<String, Disciplina> disciplinasAdicionadas = new HashMap<String, Disciplina>();
     String instrucao = "";
 
     do {
-      CoordenacaoFactory.PrintMenuAluno();
+      ScannerUtils.LimparTela();
+      CoordenacaoFactory.PrintMenuGerarCurriculo();
       instrucao = ScannerUtils.lerInstrucao(scanner);
 
       switch (instrucao) {
@@ -144,6 +272,7 @@ public class CoordenacaoFactory {
           List<Disciplina> disciplinas = secretaria.ListarDisciplinas();
 
           do {
+            ScannerUtils.LimparTela();
             CoordenacaoFactory.PrintMenuDisciplinas();
             instrucaoDisciplinas = ScannerUtils.lerInstrucao(scanner);
 
@@ -152,6 +281,7 @@ public class CoordenacaoFactory {
                 System.out.println("======================================================");
                 disciplinas.stream().forEach(System.out::println);
                 System.out.println("======================================================");
+                ScannerUtils.Pausa(scanner);
                 break;
               }
               case "2": {
@@ -161,6 +291,7 @@ public class CoordenacaoFactory {
                     .filter(d -> Integer.toString(d.getCodigo()).equals(disciplinaAdicionada)).findFirst().get();
 
                 disciplinasAdicionadas.putIfAbsent(disciplinaAdicionada, disciplinaInstance);
+                break;
               }
               case "3": {
                 String disciplinaRemovida = ScannerUtils.lerValor("Digite o código da disciplina a ser removida: ",
@@ -191,7 +322,8 @@ public class CoordenacaoFactory {
 
           Curriculo curriculo = new Curriculo(curso, List.copyOf(disciplinasAdicionadas.values()));
 
-          Secretaria2.getInstance().GerarCurriculo(curriculo, curso);
+          Secretaria.getInstance().GerarCurriculo(curriculo, curso);
+          instrucao = "0";
 
           break;
         }

@@ -3,15 +3,16 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class AuthFactory {
-  public static Usuario Autenticar(Scanner scanner, Secretaria secretaria) {
+  public static Usuario Autenticar(Scanner scanner, Coordenacao coordenacao) {
     String login = ScannerUtils.lerValor("Login: ", scanner);
     String senha = ScannerUtils.lerValor("Senha: ", scanner);
+    Secretaria secretaria = Secretaria.getInstance();
 
-    if (secretaria.getLogin().equals(login) && secretaria.getSenha().equals(senha)) {
-      return (Usuario) secretaria;
+    if (coordenacao.getLogin().equals(login) && coordenacao.getSenha().equals(senha)) {
+      return (Usuario) coordenacao;
     }
 
-    Optional<Object> professorEncontrado = AuthFactory.BuscarProfessorPorCredenciais(secretaria.getProfessores(),
+    Optional<Professor> professorEncontrado = AuthFactory.BuscarProfessorPorCredenciais(secretaria.ListarProfessores(),
         login, senha);
 
     if (!professorEncontrado.isEmpty()) {
@@ -20,7 +21,7 @@ public class AuthFactory {
       return (Usuario) professorEncontrado.get();
     }
 
-    Optional<Object> alunoEncontrado = AuthFactory.BuscarAlunoPorCredenciais(secretaria.getAlunos(), login,
+    Optional<Aluno> alunoEncontrado = AuthFactory.BuscarAlunoPorCredenciais(secretaria.ListarAlunos(), login,
         senha);
 
     if (!alunoEncontrado.isEmpty()) {
@@ -34,13 +35,13 @@ public class AuthFactory {
     return null;
   }
 
-  private static Optional<Object> BuscarProfessorPorCredenciais(List<Object> lista, String login, String senha) {
+  private static Optional<Professor> BuscarProfessorPorCredenciais(List<Professor> lista, String login, String senha) {
     if (lista == null) {
       return Optional.empty();
     }
 
     return lista.stream().filter(usuario -> {
-      if (((Professor) usuario).getNome().equals(login) && ((Professor) usuario).getSenha().equals(senha)) {
+      if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
         return true;
       } else {
         return false;
@@ -48,14 +49,14 @@ public class AuthFactory {
     }).findFirst();
   }
 
-  private static Optional<Object> BuscarAlunoPorCredenciais(List<Object> lista,
+  private static Optional<Aluno> BuscarAlunoPorCredenciais(List<Aluno> lista,
       String login, String senha) {
     if (lista == null) {
       return Optional.empty();
     }
 
     return lista.stream().filter(usuario -> {
-      if (((Aluno) usuario).getNome().equals(login) && ((Aluno) usuario).getSenha().equals(senha)) {
+      if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
         return true;
       } else {
         return false;
