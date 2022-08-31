@@ -3,7 +3,7 @@ package com.projeto;
 import java.util.List;
 
 public class Curriculo {
-  private static int nextCodigo = 0;
+  private static int NEXT_CODIGO = 0;
 
   private int codigo;
   private Curso curso;
@@ -12,7 +12,7 @@ public class Curriculo {
   public Curriculo(Curso curso, List<Disciplina> disciplinas) {
     this.curso = curso;
     this.disciplinas = disciplinas;
-    this.codigo = ++Curriculo.nextCodigo;
+    this.codigo = ++Curriculo.NEXT_CODIGO;
   }
 
   public int getCodigo() {

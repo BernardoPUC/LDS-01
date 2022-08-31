@@ -6,7 +6,7 @@ import java.util.List;
 public class Disciplina {
   private static final int LIMITE_ALUNOS = 60;
   private static final int MIN_ALUNOS = 3;
-  private static int nextCodigo = 0;
+  private static int NEXT_CODIGO = 0;
 
   private Professor professor;
   private int codigo;
@@ -17,7 +17,7 @@ public class Disciplina {
   private List<Aluno> alunos;
 
   public Disciplina(Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
-    this.codigo = ++Disciplina.nextCodigo;
+    this.codigo = ++Disciplina.NEXT_CODIGO;
     this.professor = professor;
     this.tipo = tipo;
     this.curso = curso;

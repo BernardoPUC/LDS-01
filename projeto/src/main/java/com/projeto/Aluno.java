@@ -6,7 +6,7 @@ import java.util.List;
 public class Aluno extends Usuario {
   private static final int MAX_DISCIPLINAS_OBG = 4;
   private static final int MAX_DISCIPLINAS_OPT = 2;
-  private static int COUNT = 0;
+  private static int NEXT_MATRICULA = 0;
 
   private Integer matricula;
   private Curso curso;
@@ -16,7 +16,7 @@ public class Aluno extends Usuario {
 
   public Aluno(String nome, String login, String email, String senha, Curso curso) {
     super(nome, login, email, senha);
-    this.matricula = ++Aluno.COUNT;
+    this.matricula = ++Aluno.NEXT_MATRICULA;
     this.setCurso(curso);
     this.disciplinasMatriculadas = new ArrayList<Disciplina>();
   }
