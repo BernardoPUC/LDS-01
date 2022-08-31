@@ -1,5 +1,6 @@
 package com.projeto;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -108,5 +109,30 @@ public class AlunoFactory {
           break;
       }
     } while (!instrucao.equals("0"));
+  }
+
+  public static void PagarCobranca(Scanner scanner, Usuario usuario) {
+    Aluno aluno = (Aluno) usuario;
+    List<Cobranca> cobrancas = aluno.ListarCobrancas();
+
+    if (cobrancas != null) {
+      System.out.println("===========================================");
+      cobrancas.stream().forEach(c -> System.out.println("N: " + (cobrancas.indexOf(c) + 1) + " - " + c.toString()));
+      System.out.println("===========================================");
+
+      int cobrancaASerPaga = -1;
+
+      do {
+        try {
+          String cobrancaASerPagaStr = ScannerUtils.lerValor("Digite o número da cobrança a ser paga: ", scanner);
+
+          cobrancaASerPaga = Integer.parseInt(cobrancaASerPagaStr);
+        } catch (Exception e) {
+          System.out.println("O valor precisa ser um número válido na lista de cobranças pendentes");
+        }
+      } while (cobrancaASerPaga > (cobrancas.size() + 1) || cobrancaASerPaga <= 0);
+
+      SistemaFinanceiro.getInstance().PagarCobranca(cobrancas.get(cobrancaASerPaga - 1));
+    }
   }
 }

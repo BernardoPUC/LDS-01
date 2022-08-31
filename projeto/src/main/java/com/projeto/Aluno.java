@@ -8,6 +8,7 @@ public class Aluno extends Usuario {
   private static final int MAX_DISCIPLINAS_OPT = 2;
   private static int COUNT = 0;
 
+  private List<Cobranca> cobrancas;
   private Integer matricula;
   private Curso curso;
   private int disciplinasObg = 0;
@@ -19,6 +20,15 @@ public class Aluno extends Usuario {
     this.matricula = ++Aluno.COUNT;
     this.setCurso(curso);
     this.disciplinasMatriculadas = new ArrayList<Disciplina>();
+    this.cobrancas = new ArrayList<Cobranca>();
+  }
+
+  public List<Cobranca> ListarCobrancas() {
+    return this.cobrancas.stream().filter(c -> c.getAtiva()).toList();
+  }
+
+  public void AdicionarCobranca(Cobranca cobranca) {
+    this.cobrancas.add(cobranca);
   }
 
   public List<Disciplina> ListarDisciplinasMatriculadas() {

@@ -25,6 +25,7 @@ public class SistemaFinanceiro {
 
     Cobranca cobranca = new Cobranca(valor, aluno, true);
 
+    aluno.AdicionarCobranca(cobranca);
     this.cobrancas.add(cobranca);
   }
 
