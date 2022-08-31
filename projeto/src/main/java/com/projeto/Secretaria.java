@@ -78,7 +78,7 @@ public class Secretaria {
     }
 
     private void NotificarFinanceiro(Aluno aluno) {
-
+      this.sistemaFinanceiro.GerarCobranca(aluno);
     }
 
     public Curso BuscarCurso(String idCurso) {

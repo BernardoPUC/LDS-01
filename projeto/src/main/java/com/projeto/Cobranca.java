@@ -4,11 +4,18 @@ public class Cobranca {
   private double valor;
   private Aluno devedor;
   private Boolean ativa;
+  private Boolean paga;
 
   public Cobranca(double valor, Aluno devedor, Boolean ativa) {
     this.setValor(valor);
     this.setDevedor(devedor);
-    this.setAtiva(ativa);
+    this.ativa = ativa;
+    this.paga = false;
+  }
+
+  public void Pagar() {
+    this.ativa = false;
+    this.paga = true;
   }
 
   public double getValor() {
@@ -30,8 +37,8 @@ public class Cobranca {
   public Boolean getAtiva() {
     return ativa;
   }
-  
-  public void setAtiva(Boolean ativa) {
-    this.ativa = ativa;
+
+  public Boolean getPaga() {
+    return paga;
   }
 }
