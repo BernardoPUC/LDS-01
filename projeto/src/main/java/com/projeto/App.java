@@ -83,16 +83,16 @@ public class App {
                 case "Coordenacao":
                     switch (instrucao) {
                         case "1":
-                            CoordenacaoFactory.CadastrarAluno();
+                            CoordenacaoFactory.CadastrarAluno(scanner);
                             break;
                         case "2":
-                            CoordenacaoFactory.CadastrarProfessor();
+                            CoordenacaoFactory.CadastrarProfessor(scanner);
                             break;
                         case "3":
-                            CoordenacaoFactory.CadastrarCurso();
+                            CoordenacaoFactory.CadastrarCurso(scanner);
                             break;
                         case "4":
-                            CoordenacaoFactory.CadastrarCurriculo();
+                            CoordenacaoFactory.CadastrarCurriculo(scanner);
                             break;
                         default:
                             break;
