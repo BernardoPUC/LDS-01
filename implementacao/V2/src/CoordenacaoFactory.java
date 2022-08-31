@@ -281,8 +281,7 @@ public class CoordenacaoFactory {
                 System.out.println("======================================================");
                 disciplinas.stream().forEach(System.out::println);
                 System.out.println("======================================================");
-                System.out.println("Pressione enter para voltar");
-                scanner.nextLine();
+                ScannerUtils.Pausa(scanner);
                 break;
               }
               case "2": {
