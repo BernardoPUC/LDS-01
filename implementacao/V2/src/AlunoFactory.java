@@ -12,30 +12,45 @@ public class AlunoFactory {
     System.out.println("=================================================");
   }
 
-  public static void Matricular(Scanner scanner, Usuario usuario) {
+  private static void limparTela() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+  }
+
+  private static void pausa(Scanner teclado) {
+    System.out.println("\033[1;32mEnter para continuar.");
+    teclado.nextLine();
+  }
+
+  public static void Matricular(Scanner scanner, Usuario usuario, Secretaria secretaria) {
     Aluno aluno = (Aluno) usuario;
-    AlunoFactory.PrintMenuMatricular();
     Disciplina disciplinaEscolhida = null;
 
-    String instrucao = ScannerUtils.lerInstrucao(scanner);
-
-    do {
-      Secretaria2 secretaria = Secretaria2.getInstance();
+    while (true) {
+      AlunoFactory.PrintMenuMatricular();
+      String instrucao = ScannerUtils.lerInstrucao(scanner);
+      if (instrucao.equals("0")) {
+        limparTela();
+        break;
+      }
 
       switch (instrucao) {
         case "1":
-          secretaria.ListarDisciplinas().stream().filter(disciplina -> disciplina.getCurso().equals(aluno.getCurso()))
+          secretaria.getDisciplinas().stream()
+              .filter(disciplina -> ((Disciplina) disciplina).getCurso().equals(aluno.getCurso()))
               .forEach(System.out::println);
           break;
         case "2": {
           do {
             String codigo = ScannerUtils.lerInstrucao("Digite o código da disciplina escolhida: ", scanner);
 
-            Optional<Disciplina> disciplinaEncontrada = secretaria.ListarDisciplinas().stream()
-                .filter(disciplina -> Integer.toString(disciplina.getCodigo()).equals(codigo)).findFirst();
+            Optional<Object> disciplinaEncontrada = secretaria.getDisciplinas().stream()
+                .filter(disciplina -> Integer.toString(((Disciplina) disciplina).getCodigo()).equals(codigo))
+                .findFirst();
 
-            if (!disciplinaEncontrada.isEmpty() && disciplinaEncontrada.get().getCurso().equals(aluno.getCurso())) {
-              disciplinaEscolhida = disciplinaEncontrada.get();
+            if (!disciplinaEncontrada.isEmpty()
+                && ((Disciplina) disciplinaEncontrada.get()).getCurso().equals(aluno.getCurso())) {
+              disciplinaEscolhida = (Disciplina) disciplinaEncontrada.get();
             } else {
               System.out.println(disciplinaEncontrada == null ? "Não existe uma disciplina com o código informado"
                   : "A disciplina precisa ser do curso do aluno.");
@@ -50,13 +65,13 @@ public class AlunoFactory {
             break;
           }
 
-          secretaria.SolicitarMatricula(aluno, disciplinaEscolhida);
+          // secretaria.SolicitarMatricula(aluno, disciplinaEscolhida);
           break;
         }
         default:
           break;
       }
-    } while (!instrucao.equals("0"));
+    }
   }
 
   private static void PrintMenuCancelarMatricula() {

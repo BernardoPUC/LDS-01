@@ -19,7 +19,7 @@ public class Professor extends Usuario implements Serializable {
     this.disciplinas.remove(disciplina);
   }
 
-  public List<Disciplina> ListarDisciplinas() {
+  public ArrayList<Disciplina> ListarDisciplinas() {
     return this.disciplinas;
   }
 

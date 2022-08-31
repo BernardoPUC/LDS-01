@@ -44,7 +44,7 @@ public class App {
         return opcao;
     }
 
-    private static void menuAluno(Scanner teclado, Usuario usuario) {
+    private static void menuAluno(Scanner teclado, Usuario usuario, Secretaria secretaria) {
         limparTela();
         System.out.println("========================================");
         System.out.println("== 1 - Fazer matricula em matéria     ==");
@@ -59,7 +59,7 @@ public class App {
             teclado.nextLine();
             switch (opcao) {
                 case 1:
-                    AlunoFactory.Matricular(teclado, usuario);
+                    AlunoFactory.Matricular(teclado, usuario, secretaria);
                     break;
                 case 2:
                     AlunoFactory.CancelarMatricula(teclado, usuario);
@@ -311,7 +311,7 @@ public class App {
 
             switch (tipoUsuario) {
                 case "Aluno":
-                    App.menuAluno(teclado, usuarioEncontrado);
+                    App.menuAluno(teclado, usuarioEncontrado, secretaria);
                     break;
                 case "Professor":
                     App.menuProfessor(teclado, usuarioEncontrado);
