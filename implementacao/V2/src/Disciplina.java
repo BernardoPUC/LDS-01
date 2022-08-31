@@ -18,6 +18,7 @@ public class Disciplina implements Serializable {
   static final long serialVersionUID = 321L; // Serialização
 
   public Disciplina(String nome, Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
+    this.nome = nome;
     this.codigo = ++Disciplina.nextCodigo;
     this.nome = nome;
     this.professor = professor;
