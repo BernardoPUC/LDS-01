@@ -48,4 +48,9 @@ public class Usuario implements Serializable {
   public void setSenha(String senha) {
     this.senha = senha;
   }
+
+  @Override
+  public String toString() {
+    return "Nome: " + this.getNome() + " | Email: " + this.getEmail();
+  }
 }

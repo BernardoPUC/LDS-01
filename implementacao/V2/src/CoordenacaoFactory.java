@@ -14,7 +14,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarAluno(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = "";
     String login = "";
@@ -52,6 +52,7 @@ public class CoordenacaoFactory {
 
           try {
             secretaria.MatricularAluno(aluno);
+            instrucao = "0";
           } catch (Exception e) {
             System.out.println(e);
           }
@@ -63,7 +64,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarProfessor(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = ScannerUtils.lerValor("Nome do professor: ", scanner);
     String login = ScannerUtils.lerValor("Login do professor: ", scanner);
@@ -76,7 +77,7 @@ public class CoordenacaoFactory {
   }
 
   public static void CadastrarCurso(Scanner scanner) {
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     String nome = ScannerUtils.lerValor("Nome do curso: ", scanner);
 
@@ -115,7 +116,7 @@ public class CoordenacaoFactory {
 
   public static void GerarCurriculo(Scanner scanner) {
     CoordenacaoFactory.PrintMenuGerarCurriculo();
-    Secretaria2 secretaria = Secretaria2.getInstance();
+    Secretaria secretaria = Secretaria.getInstance();
 
     Curso curso = null;
     Map<String, Disciplina> disciplinasAdicionadas = new HashMap<String, Disciplina>();
@@ -191,7 +192,7 @@ public class CoordenacaoFactory {
 
           Curriculo curriculo = new Curriculo(curso, List.copyOf(disciplinasAdicionadas.values()));
 
-          Secretaria2.getInstance().GerarCurriculo(curriculo, curso);
+          Secretaria.getInstance().GerarCurriculo(curriculo, curso);
 
           break;
         }

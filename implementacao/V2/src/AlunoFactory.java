@@ -20,7 +20,7 @@ public class AlunoFactory {
     String instrucao = ScannerUtils.lerInstrucao(scanner);
 
     do {
-      Secretaria2 secretaria = Secretaria2.getInstance();
+      Secretaria secretaria = Secretaria.getInstance();
 
       switch (instrucao) {
         case "1":
@@ -76,7 +76,7 @@ public class AlunoFactory {
     String instrucao = ScannerUtils.lerInstrucao(scanner);
 
     do {
-      Secretaria2 secretaria = Secretaria2.getInstance();
+      Secretaria secretaria = Secretaria.getInstance();
 
       switch (instrucao) {
         case "1":
@@ -124,7 +124,7 @@ public class AlunoFactory {
     String instrucao = ScannerUtils.lerValor("Você deseja confirmar sua matricula? (s/n)", scanner, List.of("s", "n"));
 
     if (instrucao.equals("s")) {
-      Secretaria2.getInstance().InscreverParaSemestre(aluno);
+      Secretaria.getInstance().InscreverParaSemestre(aluno);
     }
   }
 

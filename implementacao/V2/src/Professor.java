@@ -38,9 +38,4 @@ public class Professor extends Usuario implements Serializable {
 
     alunos.stream().forEach(System.out::println);
   }
-
-  @Override
-  public String toString() {
-    return "Nome: " + this.getNome() + " | Email: " + this.getEmail();
-  }
 }
