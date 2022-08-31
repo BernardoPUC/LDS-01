@@ -9,8 +9,8 @@ import java.util.Optional;
 public class Secretaria {
     private List<Professor> professores;
     private List<Disciplina> disciplinas;
-    private Map<String, Curso> cursos;
-    private Map<String, Aluno> alunos;
+    private Map<Integer, Curso> cursos;
+    private Map<Integer, Aluno> alunos;
     private SistemaFinanceiro sistemaFinanceiro;
     private Boolean permiteAlteracaoDeMatricula;
     private static Secretaria secretaria;
@@ -18,8 +18,8 @@ public class Secretaria {
     private Secretaria() {
       this.professores = new ArrayList<Professor>();
       this.disciplinas = new ArrayList<Disciplina>();
-      this.cursos = new HashMap<String, Curso>();
-      this.alunos = new HashMap<String, Aluno>();
+      this.cursos = new HashMap<Integer, Curso>();
+      this.alunos = new HashMap<Integer, Aluno>();
       this.sistemaFinanceiro = SistemaFinanceiro.getInstance();
     }
 
@@ -31,8 +31,8 @@ public class Secretaria {
       return secretaria;
     }
 
-    public Curriculo GerarCurriculo() {
-      // return new Curriculo();
+    public void GerarCurriculo(Curriculo curriculo, Curso curso) {
+      curso.AtualizarCurriculo(curriculo);
     }
     
     public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {
@@ -59,7 +59,6 @@ public class Secretaria {
 
     public void AtribuirDisciplina(Disciplina disciplina, Professor professor) {
       Boolean disciplinaEncontrada = professor.ListarDisciplinas().stream().filter(d -> d.getCodigo() == disciplina.getCodigo()).findFirst().isPresent();
-      Secretaria secretaria = Secretaria.getInstance();
   
       if (!disciplinaEncontrada) {
         if (disciplina.getProfessor() != null) {
@@ -87,7 +86,7 @@ public class Secretaria {
         return null;
       }
 
-      return this.cursos.get(idCurso);
+      return this.cursos.get(Integer.parseInt(idCurso));
     }
 
     public List<Professor> ListarProfessores() {

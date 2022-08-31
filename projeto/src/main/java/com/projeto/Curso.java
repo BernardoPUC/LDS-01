@@ -1,5 +1,6 @@
 package com.projeto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Curso {
@@ -8,13 +9,19 @@ public class Curso {
   private int id;
   private String nome;
   private int creditos;
-  private String curriculoAtual;
-  private Map<String, Curriculo> curriculos;
+  private Integer curriculoAtual;
+  private Map<Integer, Curriculo> curriculos;
 
   public Curso(String nome, int creditos) {
     this.setNome(nome);
     this.setCreditos(creditos);
+    this.curriculos = new HashMap<Integer, Curriculo>();
     this.id = ++Curso.nextId;
+  }
+
+  public void AtualizarCurriculo(Curriculo curriculo) {
+    this.curriculoAtual = curriculo.getCodigo();
+    this.curriculos.putIfAbsent(curriculoAtual, curriculo);
   }
 
   public int getId() {
@@ -37,11 +44,15 @@ public class Curso {
     this.creditos = creditos;
   }
 
-  public String getCurriculoAtual() {
-    return curriculoAtual;
+  public Curriculo getCurriculoAtual() {
+    if (curriculoAtual == null) {
+      return null;
+    }
+
+    return curriculos.get(curriculoAtual);
   }
    
-  public void setCurriculoAtual(String curriculoAtual) {
+  public void setCurriculoAtual(Integer curriculoAtual) {
     this.curriculoAtual = curriculoAtual;
   }
 }

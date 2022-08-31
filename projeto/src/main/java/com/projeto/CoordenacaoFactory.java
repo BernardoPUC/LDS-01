@@ -102,6 +102,7 @@ public class CoordenacaoFactory {
     System.out.println("======================================================");
     System.out.println("== 1 - Definir curso                                ==");
     System.out.println("== 2 - Definir disciplinas                          ==");
+    System.out.println("== 3 - Salvar cadastro                              ==");
     System.out.println("======================================================");
   }
 
@@ -117,7 +118,7 @@ public class CoordenacaoFactory {
     CoordenacaoFactory.PrintMenuGerarCurriculo();
     Secretaria secretaria = Secretaria.getInstance();
     
-    Curso curso;
+    Curso curso = null;
     Map<String, Disciplina> disciplinasAdicionadas = new HashMap<String, Disciplina>();
     String instrucao = "";
 
@@ -159,12 +160,36 @@ public class CoordenacaoFactory {
 
                 disciplinasAdicionadas.putIfAbsent(disciplinaAdicionada, disciplinaInstance);
               }
+              case "3": {
+                String disciplinaRemovida = ScannerUtils.lerValor("Digite o código da disciplina a ser removida: ", scanner, disciplinas.stream().map(di -> Integer.toString(di.getCodigo())).toList());
+                Disciplina disciplinaInstance = disciplinasAdicionadas.get(disciplinaRemovida);
+
+                disciplinasAdicionadas.remove(disciplinaRemovida, disciplinaInstance);
+                break;
+              }
               default:
                 break;
             }
 
           } while (!instrucaoDisciplinas.equals("0"));
 
+
+          break;
+        }
+        case "3": {
+          if (curso == null) {
+            System.out.println("Você precisa definir o curso");
+            break;
+          }
+
+          if (disciplinasAdicionadas.size() == 0) {
+            System.out.println("Você precisa definir as disciplinas do curriculo");
+            break;
+          }
+
+          Curriculo curriculo = new Curriculo(curso, List.copyOf(disciplinasAdicionadas.values()));
+
+          Secretaria.getInstance().GerarCurriculo(curriculo, curso);
 
           break;
         }
