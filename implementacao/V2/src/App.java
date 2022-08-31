@@ -1,0 +1,373 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class App {
+    // Nomes dos arquivos binários
+    static String arqProfessores = "professores.bin";
+    static String arqAlunos = "alunos.bin";
+    static String arqCursos = "cursos.bin";
+    static String arqDisciplinas = "disciplinas.bin";
+
+    // #region utilidades
+
+    /**
+     * "Limpa" a tela (códigos de terminal VT-100)
+     */
+    private static void limparTela() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    /**
+     * Menu
+     * 
+     * @param teclado Scanner de leitura
+     * @return Opção do usuário (int)
+     */
+
+    private static int menu(Scanner teclado) {
+        limparTela();
+        System.out.println("\033[1;32mSistema de Matrículas");
+        System.out.println("=================================================");
+        System.out.println("1 - Realizar Login");
+        System.out.println("0 - Sair");
+        int opcao = 0;
+        try {
+            opcao = teclado.nextInt();
+            teclado.nextLine();
+        } catch (InputMismatchException ex) {
+            teclado.nextLine();
+            System.out.println("\033[1;31mSomente opções numéricas!");
+            opcao = -1;
+        }
+        return opcao;
+    }
+
+    private static void menuAluno(Scanner teclado, Usuario usuario) {
+        limparTela();
+        System.out.println("========================================");
+        System.out.println("== 1 - Fazer matricula em matéria     ==");
+        System.out.println("== 2 - Cancelar matricula em matéria  ==");
+        System.out.println("== 3 - Confirmar matricula            ==");
+        System.out.println("== 4 - Pagar cobranca                 ==");
+        System.out.println("== 0 - Sair do sistema                ==");
+        System.out.println("========================================");
+
+        try {
+            int opcao = teclado.nextInt();
+            teclado.nextLine();
+            switch (opcao) {
+                case 1:
+                    AlunoFactory.Matricular(teclado, usuario);
+                    break;
+                case 2:
+                    AlunoFactory.CancelarMatricula(teclado, usuario);
+                    break;
+                case 3:
+                    AlunoFactory.ConfirmarMatricula(teclado, usuario);
+                case 4:
+                    AlunoFactory.PagarCobranca(teclado, usuario);
+                    break;
+                default:
+                    System.out.println("\033[1;31mOpção inválida!");
+                    break;
+            }
+        } catch (InputMismatchException ex) {
+            teclado.nextLine();
+            System.out.println("\033[1;31mSomente opções numéricas.");
+        }
+    }
+
+    private static void menuProfessor(Scanner teclado, Usuario usuario) {
+        limparTela();
+        System.out.println("========================================");
+        System.out.println("== 1 - Listar alunos                  ==");
+        System.out.println("== 0 - Sair do sistema                ==");
+        System.out.println("========================================");
+
+        try {
+            int opcao = teclado.nextInt();
+            teclado.nextLine();
+            switch (opcao) {
+                case 1:
+                    ProfessorFactory.ListarAlunos(teclado, usuario);
+                    break;
+                default:
+                    System.out.println("\033[1;31mOpção inválida!");
+                    break;
+            }
+        } catch (InputMismatchException ex) {
+            teclado.nextLine();
+            System.out.println("\033[1;31mSomente opções numéricas.");
+        }
+    }
+
+    private static void menuSecretaria(Scanner teclado, Secretaria secretaria) {
+        limparTela();
+        System.out.println("========================================");
+        System.out.println("== 1 - Cadastrar Usuario              ==");
+        System.out.println("== 2 - Cadastrar curso                ==");
+        System.out.println("== 3 - Cadastrar Disciplina           ==");
+        System.out.println("== 4 - Gerar curriculo                ==");
+        System.out.println("========================================");
+
+        try {
+            int opcao = teclado.nextInt();
+            teclado.nextLine();
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome do usuario: ");
+                    String nomeUsuario = teclado.nextLine();
+
+                    System.out.println("Digite o login do usuario: ");
+                    String loginUsuario = teclado.nextLine();
+
+                    System.out.println("Digite o email do usuario: ");
+                    String emailUsuario = teclado.nextLine();
+
+                    System.out.println("Digite a senha do usuario: ");
+                    String senhaUsuario = teclado.nextLine();
+
+                    // Cria o objeto com base no tipo de usuario
+                    System.out.println("Selecione o tipo do usuário:");
+                    System.out.println("=================================================");
+                    System.out.println("1 - Professor");
+                    System.out.println("2 - Aluno");
+
+                    try {
+                        int tipoUsuario = teclado.nextInt();
+                        teclado.nextLine();
+                        switch (tipoUsuario) {
+                            case 1:
+                                Professor usuarioProfessor = new Professor(nomeUsuario, loginUsuario, emailUsuario,
+                                        senhaUsuario);
+                                secretaria.addProfessor(usuarioProfessor);
+                                break;
+
+                            case 2:
+                                // Lista e seleciona os cursos
+                                ArrayList<Object> cursos = secretaria.getCursos();
+                                System.out.println("Digite o nome do curso: (Opções abaixo)");
+                                cursos.forEach((c) -> System.out.println(c.toString()));
+
+                                String nomeCurso = teclado.nextLine();
+                                // Filtra o Arraylist de cursos pelo nome e retorna o primeiro elemento
+                                Curso curso = (Curso) cursos.stream()
+                                        .filter((c) -> ((Curso) c)
+                                                .getNome()
+                                                .equals(nomeCurso))
+                                        .findFirst()
+                                        .orElse(null);
+
+                                if (curso != null) {
+                                    System.out.println("\033[1;32mCurso selecionado!");
+                                    System.out.println(curso.toString());
+                                    Aluno usuarioAluno = new Aluno(nomeUsuario, loginUsuario, emailUsuario,
+                                            senhaUsuario, curso);
+                                    secretaria.addAluno(usuarioAluno);
+                                } else
+                                    System.out.println("\033[1;31mCurso não encontrado!");
+                                break;
+
+                            default:
+                                System.out.println("\033[1;31mOpção inválida!");
+                                break;
+                        }
+                    } catch (InputMismatchException ex) {
+                        teclado.nextLine();
+                        System.out.println("\033[1;31mSomente opções numéricas.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("Digite o nome do curso: ");
+                    String nomeCurso = teclado.nextLine();
+
+                    System.out.println("Digite a quantidade de créditos do curso: ");
+                    int creditosCurso = teclado.nextInt();
+
+                    Curso curso = new Curso(nomeCurso, creditosCurso);
+                    secretaria.addCurso(curso);
+                    break;
+
+                case 3:
+                    System.out.println("Digite o nome da disciplina: ");
+                    String nomeDisciplina = teclado.nextLine();
+
+                    // Lista e seleciona os professores
+                    ArrayList<Object> professores = secretaria.getProfessores();
+                    System.out.println("Digite o nome do professor: (Opções abaixo)");
+                    professores.forEach((c) -> System.out.println(c.toString()));
+
+                    String nomeProfessor = teclado.nextLine();
+                    // Filtra o Arraylist de professores pelo nome e retorna o primeiro elemento
+                    Professor professor = (Professor) professores.stream()
+                            .filter((p) -> ((Professor) p)
+                                    .getNome()
+                                    .equals(nomeProfessor))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (professor != null) {
+                        System.out.println("\033[1;32mCurso selecionado!");
+                        System.out.println(professor.toString());
+
+                        // Retorna o ENUM com oque foi selecionado
+                        System.out.println("Selecione o tipo da disciplina:");
+                        System.out.println("=================================================");
+                        System.out.println("1 - Obrigatória");
+                        System.out.println("2 - Optativa");
+                        int tipoDisciplinaOpcao = teclado.nextInt();
+                        teclado.nextLine();
+
+                        TipoDisciplina tipoDisciplina;
+                        switch (tipoDisciplinaOpcao) {
+                            case 1:
+                                tipoDisciplina = TipoDisciplina.OBRIGATORIA;
+                                break;
+                            case 2:
+                                tipoDisciplina = TipoDisciplina.OPTATIVA;
+                                break;
+                            default:
+                                tipoDisciplina = null;
+                                System.out.println("\033[1;31mOpção inválida!");
+                                break;
+                        }
+
+                        if (tipoDisciplina != null) {
+                            // Lista e seleciona os cursos
+                            ArrayList<Object> cursos = secretaria.getCursos();
+                            System.out.println("Digite o nome do curso: (Opções abaixo)");
+                            cursos.forEach((c) -> System.out.println(c.toString()));
+
+                            String nomeCursoDisciplina = teclado.nextLine();
+                            // Filtra o Arraylist de cursos pelo nome e retorna o primeiro elemento
+                            Curso cursoDisciplina = (Curso) cursos.stream()
+                                    .filter((c) -> ((Curso) c)
+                                            .getNome()
+                                            .equals(nomeCursoDisciplina))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if (cursoDisciplina != null) {
+                                System.out.println("\033[1;32mCurso selecionado!");
+                                System.out.println(cursoDisciplina.toString());
+
+                                System.out.println("Digite o valor da disciplina: ");
+                                Double valorDisciplina = teclado.nextDouble();
+
+                                Disciplina disciplina = new Disciplina(nomeDisciplina, professor, tipoDisciplina,
+                                        cursoDisciplina,
+                                        valorDisciplina);
+                                secretaria.addDisciplina(disciplina);
+
+                                professor.AdicionarDisciplina(disciplina);
+                            } else
+                                System.out.println("\033[1;31mCurso não encontrado!");
+                        }
+                    } else
+                        System.out.println("\033[1;31mProfessor não encontrado!");
+                    break;
+
+                case 4:
+                    break;
+
+                case 0:
+                    break;
+
+                default:
+                    System.out.println("\033[1;31mOpção inválida!");
+                    break;
+            }
+        } catch (InputMismatchException ex) {
+            teclado.nextLine();
+            System.out.println("\033[1;31mSomente opções numéricas.");
+        }
+    }
+
+    /**
+     * Pausa para leitura de mensagens em console
+     * 
+     * @param teclado Scanner de leitura
+     */
+    private static void pausa(Scanner teclado) {
+        System.out.println("\033[1;32mEnter para continuar.");
+        teclado.nextLine();
+    }
+
+    /**
+     * Autenticação e direcionamento do usuário
+     * 
+     * @param teclado
+     * @param usuario
+     */
+    private static void realizarLogin(int opcao, Scanner teclado, Secretaria secretaria) {
+        Usuario usuarioEncontrado = AuthFactory.Autenticar(teclado, secretaria);
+
+        if (usuarioEncontrado != null) {
+            String tipoUsuario = usuarioEncontrado.getClass().getName();
+            System.out.println(tipoUsuario);
+
+            switch (tipoUsuario) {
+                case "Aluno":
+                    App.menuAluno(teclado, usuarioEncontrado);
+                    break;
+                case "Professor":
+                    App.menuProfessor(teclado, usuarioEncontrado);
+                case "Secretaria":
+                    App.menuSecretaria(teclado, secretaria);
+                default:
+                    break;
+            }
+        }
+    }
+
+    // #endregion
+
+    public static void main(String[] args) throws Exception {
+        /**
+         * Criação da classe Secretaria e alimentação das classes/carregamento dos
+         * arquivos binários caso existam.
+         */
+        Secretaria secretaria = new Secretaria("secretaria", "secretaria", "secretaria@gmail.com", "123");
+        secretaria.setProfessores(secretaria.carregarBinario(arqProfessores));
+        secretaria.setAlunos(secretaria.carregarBinario(arqAlunos));
+        secretaria.setCursos(secretaria.carregarBinario(arqCursos));
+        secretaria.setDisciplinas(secretaria.carregarBinario(arqDisciplinas));
+
+        /**
+         * Menu
+         */
+        Scanner teclado = new Scanner(System.in);
+        int opcao;
+
+        while (true) {
+            opcao = menu(teclado);
+            if (opcao == 0) {
+                limparTela();
+                break;
+            }
+
+            switch (opcao) {
+                case 1:
+                    realizarLogin(opcao, teclado, secretaria);
+                    break;
+                default:
+                    break;
+            }
+
+            pausa(teclado);
+            limparTela();
+        }
+
+        /**
+         * Após o fim da aplicação salva os dados de usuários e disciplinas
+         *
+         */
+        secretaria.salvarBinario(secretaria.getProfessores(), arqProfessores);
+        secretaria.salvarBinario(secretaria.getAlunos(), arqAlunos);
+        secretaria.salvarBinario(secretaria.getDisciplinas(), arqDisciplinas);
+        secretaria.salvarBinario(secretaria.getCursos(), arqCursos);
+    }
+}
