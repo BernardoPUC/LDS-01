@@ -14,9 +14,6 @@ public class Usuario implements Serializable {
     this.senha = senha;
   }
 
-  public void Logar() {
-  }
-
   public String getNome() {
     return nome;
   }
