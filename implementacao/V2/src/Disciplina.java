@@ -28,6 +28,10 @@ public class Disciplina implements Serializable {
     this.alunos = new ArrayList<Aluno>();
   }
 
+  public static void AtualizarNextCodigo(int nextCodigo) {
+    Disciplina.nextCodigo = nextCodigo;
+  }
+
   public void Matricular(Aluno aluno) {
     int qtdeAlunos = this.alunos.size();
 

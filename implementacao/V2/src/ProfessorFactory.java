@@ -25,26 +25,26 @@ public class ProfessorFactory {
   public static void ListarAlunos(Scanner scanner, Usuario usuario) {
     Professor professor = (Professor) usuario;
 
-    while (true) {
+    String instrucao = "";
+    
+    do {
+      limparTela();
       ProfessorFactory.PrintMenu();
 
-      String instrucao = ScannerUtils.lerInstrucao(scanner);
-      if (instrucao.equals("0")) {
-        limparTela();
-        break;
-      }
+      instrucao = ScannerUtils.lerInstrucao(scanner);
 
       switch (instrucao) {
         case "1":
-          System.out.println("============================================================");
+          ScannerUtils.LimparTela();
           professor.ListarAlunos();
-          System.out.println("============================================================");
+          ScannerUtils.Pausa(scanner);
           break;
 
         case "2":
           List<Disciplina> disciplinas = professor.ListarDisciplinas();
           Disciplina disciplinaEscolhida = null;
 
+          ScannerUtils.LimparTela();
           System.out.println("============================================================");
           disciplinas.stream().forEach(System.out::println);
           System.out.println("============================================================\n");
@@ -62,13 +62,16 @@ public class ProfessorFactory {
             }
           } while (disciplinaEscolhida == null);
 
+          ScannerUtils.LimparTela();
           professor.ListarAlunos(disciplinaEscolhida);
+          ScannerUtils.Pausa(scanner);
         default:
           break;
       }
 
-      pausa(scanner);
-      limparTela();
-    }
+    } while (!instrucao.equals("0"));
+    
+    pausa(scanner);
+    limparTela();
   }
 }

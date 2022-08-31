@@ -24,7 +24,7 @@ public class Professor extends Usuario implements Serializable {
   }
 
   public void ListarAlunos() {
-    if (this.disciplinas == null) {
+    if (this.disciplinas == null || this.disciplinas.size() == 0) {
       System.out.println("Este professor não possui disciplinas!");
     } else {
       this.disciplinas.stream().forEach(disciplina -> {
@@ -36,6 +36,11 @@ public class Professor extends Usuario implements Serializable {
   public void ListarAlunos(Disciplina disciplina) {
     List<Aluno> alunos = disciplina.ListarAlunos();
 
+    System.out.println("=======================================================");
+    System.out.println("Disciplina: " + disciplina.getNome());
+    System.out.println("=======================================================");
     alunos.stream().forEach(System.out::println);
+
+    System.out.println("=======================================================");
   }
 }

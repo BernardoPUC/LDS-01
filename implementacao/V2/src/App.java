@@ -105,27 +105,34 @@ public class App {
     }
 
     private static void menuProfessor(Scanner teclado, Usuario usuario) {
-        limparTela();
-        System.out.println("========================================");
-        System.out.println("== 1 - Listar alunos                  ==");
-        System.out.println("== 0 - Sair do sistema                ==");
-        System.out.println("========================================");
+        int opcao = 0;
 
-        try {
-            int opcao = teclado.nextInt();
-            teclado.nextLine();
-            switch (opcao) {
-                case 1:
-                    ProfessorFactory.ListarAlunos(teclado, usuario);
-                    break;
-                default:
-                    System.out.println("\033[1;31mOpção inválida!");
-                    break;
-            }
-        } catch (InputMismatchException ex) {
-            teclado.nextLine();
-            System.out.println("\033[1;31mSomente opções numéricas.");
-        }
+        do {
+            limparTela();
+            System.out.println("========================================");
+            System.out.println("== 1 - Listar alunos                  ==");
+            System.out.println("== 0 - Sair do sistema                ==");
+            System.out.println("========================================");
+    
+            try {
+                opcao = teclado.nextInt();
+                teclado.nextLine();
+                switch (opcao) {
+                    case 1:
+                        ProfessorFactory.ListarAlunos(teclado, usuario);
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("\033[1;31mOpção inválida!");
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                teclado.nextLine();
+                System.out.println("\033[1;31mSomente opções numéricas.");
+            }            
+        } while (opcao != 0);
+
     }
 
     private static void menuSecretaria(Scanner teclado, Coordenacao secretaria) {
@@ -193,8 +200,10 @@ public class App {
                     break;
                 case "Professor":
                     App.menuProfessor(teclado, usuarioEncontrado);
+                    break;
                 case "Coordenacao":
                     App.menuSecretaria(teclado, coordenacao);
+                    break;
                 default:
                     break;
             }

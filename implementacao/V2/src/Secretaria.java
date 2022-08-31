@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Secretaria {
   private List<Professor> professores;
@@ -32,11 +33,13 @@ public class Secretaria {
     Secretaria secretaria = Secretaria.getInstance();
 
     if (professores.size() > 0) {
-      secretaria.professores = professores.stream().map(p -> (Professor) p).toList();
+      secretaria.professores = professores.stream().map(p -> (Professor) p).collect(Collectors.toList());
     }
 
     if (disciplinas.size() > 0) {
-      secretaria.disciplinas = disciplinas.stream().map(d -> (Disciplina) d).toList();
+      secretaria.disciplinas = disciplinas.stream().map(d -> (Disciplina) d).collect(Collectors.toList());
+
+      Disciplina.AtualizarNextCodigo(secretaria.disciplinas.get(secretaria.disciplinas.size() - 1).getCodigo());
     }
     
     alunos.stream().forEach(a -> {
