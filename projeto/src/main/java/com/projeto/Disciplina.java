@@ -16,6 +16,7 @@ public class Disciplina {
   private List<Aluno> alunos;
 
   public Disciplina(Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
+    this.codigo = ++Disciplina.nextCodigo;
     this.professor = professor;
     this.tipo = tipo;
     this.curso = curso;
@@ -52,14 +53,10 @@ public class Disciplina {
     return this.alunos;
   }
 
-  public String getCodigo() {
+  public int getCodigo() {
     return codigo;
   }
   
-  public void setCodigo(String codigo) {
-    this.codigo = codigo;
-  }
-
   public TipoDisciplina getTipo() {
     return tipo;
   }

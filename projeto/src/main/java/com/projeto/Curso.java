@@ -14,15 +14,11 @@ public class Curso {
   public Curso(String nome, int creditos) {
     this.setNome(nome);
     this.setCreditos(creditos);
-    this.setId(++Curso.nextId);
+    this.id = ++Curso.nextId;
   }
 
   public int getId() {
     return id;
-  }
-
-  private void setId(int id) {
-    this.id = id;
   }
 
   public String getNome() {

@@ -23,7 +23,7 @@ public class App {
         System.out.println("== 1 - Cadastrar aluno                ==");
         System.out.println("== 2 - Cadastrar professor            ==");
         System.out.println("== 3 - Cadastrar curso                ==");
-        System.out.println("== 4 - Cadastrar curriculo            ==");
+        System.out.println("== 4 - Gerar curriculo                ==");
         System.out.println("== 0 - Sair do sistema                ==");
         System.out.println("========================================");
     }
@@ -92,7 +92,7 @@ public class App {
                             CoordenacaoFactory.CadastrarCurso(scanner);
                             break;
                         case "4":
-                            CoordenacaoFactory.CadastrarCurriculo(scanner);
+                            CoordenacaoFactory.GerarCurriculo(scanner);
                             break;
                         default:
                             break;
