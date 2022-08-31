@@ -34,11 +34,11 @@ public class Secretaria {
     }
     
     public void SolicitarMatricula(Aluno aluno, Disciplina disciplina) {
-      aluno.addDisciplina(disciplina);
+      aluno.AddDisciplina(disciplina);
     }
 
     public void SolicitarCancelamentoMatricula(Aluno aluno, Disciplina disciplina) {
-      aluno.removerDisciplina(disciplina);
+      aluno.RemoverDisciplina(disciplina);
     }
 
     public void MatricularAluno(Aluno aluno) throws IllegalArgumentException {
