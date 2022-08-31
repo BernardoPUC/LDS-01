@@ -5,13 +5,23 @@ import java.util.List;
 public class Disciplina {
   private static final int LIMITE_ALUNOS = 60;
   private static final int MIN_ALUNOS = 3;
+  private static nextCodigo = 0;
 
-  private String codigo;
+  private Professor professor;
+  private int codigo;
   private TipoDisciplina tipo;
   private Curso curso;
   private Boolean ativa;
   private Double valor;
   private List<Aluno> alunos;
+
+  public Disciplina(Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
+    this.professor = professor;
+    this.tipo = tipo;
+    this.curso = curso;
+    this.valor = valor;
+    this.alunos = new ArrayList<Aluno>();
+  }
 
   public void Matricular(Aluno aluno) {
     int qtdeAlunos = this.alunos.size();

@@ -57,9 +57,25 @@ public class CoordenacaoFactory {
     } while (!instrucao.equals("0"));
   }
 
-  public static void CadastrarProfessor() {}
+  public static void CadastrarProfessor(Scanner scanner) {
+    nome = ScannerUtils.lerValor("Nome do professor: ", scanner);
+    login = ScannerUtils.lerValor("Login do professor: ", scanner);
+    email = ScannerUtils.lerValor("Email do professor: ", scanner);
+    senha = ScannerUtils.lerValor("Senha do professor: ", scanner);
 
-  public static void CadastrarCurso() {}
+    Professor professor = new Professor(nome, login, email, senha);
+
+    secretaria.AdicionarProfessor(professor);
+  }
+
+  public static void CadastrarCurso(Scanner scanner) {
+    nome = ScannerUtils.lerValor("Nome do curso: ", scanner);
+    qtdeCreditos = ScannerUtils.lerValor("Quantidade de créditos do curso: ", scanner);
+
+    Curso curso = new Curso(nome, qtdeCreditos);
+
+    secretaria.AdicionarCurso(curso);
+  }
 
   public static void CadastrarCurriculo() {}
 }

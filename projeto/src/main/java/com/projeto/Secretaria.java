@@ -13,7 +13,13 @@ public class Secretaria {
     private Boolean permiteAlteracaoDeMatricula;
     private static Secretaria secretaria;
 
-    private Secretaria() {}
+    private Secretaria() {
+      this.professores = new ArrayList<Professor>();
+      this.disciplinas = new ArrayList<Disciplina>();
+      this.cursos = new HashMap<String, Curso>();
+      this.alunos = new HashMap<String, Aluno>();
+      this.sistemaFinanceiro = SistemaFinanceiro.getInstance();
+    }
 
     public static Secretaria getInstance() {
       if (secretaria == null) {
@@ -43,6 +49,27 @@ public class Secretaria {
       }
 
       this.alunos.putIfAbsent(aluno.getMatricula(), aluno);
+    }
+
+    public void AdicionarProfessor(Professor professor) {
+      this.professores.add(professor);
+    }
+
+    public void AtribuirDisciplina(Disciplina desciplina, Professor professor) {
+      Boolean disciplinaEncontrada = professor.ListarDisciplinas().stream().filter(d -> d.getCodigo().equals(disciplina.getCodigo())).findFirst().isPresent();
+      Secretaria secretaria = Secretaria.getInstance();
+  
+      if (!disciplinaEncontrada) {
+        if (disciplina.getProfessor() != null) {
+          disciplina.getProfessor().RemoverDisciplina(disciplina);
+        }
+
+        professor.AdicionarDisciplina(disciplina);
+      }
+    }
+
+    public void AdicionarCurso(Curso curso) {
+      this.cursos.putIfAbsent(curso.getId(), curso);
     }
 
     public void InscreverParaSemestre(Aluno aluno) {
