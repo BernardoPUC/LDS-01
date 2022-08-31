@@ -1,11 +1,12 @@
 package com.projeto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Disciplina {
   private static final int LIMITE_ALUNOS = 60;
   private static final int MIN_ALUNOS = 3;
-  private static nextCodigo = 0;
+  private static int nextCodigo = 0;
 
   private Professor professor;
   private int codigo;
@@ -16,6 +17,7 @@ public class Disciplina {
   private List<Aluno> alunos;
 
   public Disciplina(Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
+    this.codigo = ++Disciplina.nextCodigo;
     this.professor = professor;
     this.tipo = tipo;
     this.curso = curso;
@@ -52,14 +54,14 @@ public class Disciplina {
     return this.alunos;
   }
 
-  public String getCodigo() {
+  public int getCodigo() {
     return codigo;
   }
-  
-  public void setCodigo(String codigo) {
-    this.codigo = codigo;
-  }
 
+  public Professor getProfessor() {
+    return professor;
+  }
+  
   public TipoDisciplina getTipo() {
     return tipo;
   }

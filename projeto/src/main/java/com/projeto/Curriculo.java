@@ -3,17 +3,20 @@ package com.projeto;
 import java.util.List;
 
 public class Curriculo {
-  private String codigo;
+  private static int nextCodigo = 0;
+
+  private int codigo;
+  private Curso curso;
   private List<Disciplina> disciplinas;
 
-  public Curriculo() {}
-
-  public String getCodigo() {
-    return codigo;
+  public Curriculo(Curso curso, List<Disciplina> disciplinas) {
+    this.curso = curso;
+    this.disciplinas = disciplinas;
+    this.codigo = ++Curriculo.nextCodigo;
   }
-  
-  public void setCodigo(String codigo) {
-    this.codigo = codigo;
+
+  public int getCodigo() {
+    return codigo;
   }
 
   public List<Disciplina> getDisciplinas() {

@@ -1,13 +1,14 @@
 package com.projeto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aluno extends Usuario {
   private static final int MAX_DISCIPLINAS_OBG = 4;
   private static final int MAX_DISCIPLINAS_OPT = 2;
-  private static int count = 0;
+  private static int COUNT = 0;
 
-  private String matricula;
+  private Integer matricula;
   private Curso curso;
   private int disciplinasObg = 0;
   private int disciplinasOpt = 0;
@@ -15,9 +16,9 @@ public class Aluno extends Usuario {
 
   public Aluno(String nome, String login, String email, String senha, Curso curso) {
     super(nome, login, email, senha);
-    this.setMatricula(Integer.toString(++count));
+    this.matricula = ++Aluno.COUNT;
     this.setCurso(curso);
-    this.setDisciplinasMatriculadas(new ArrayList<Disciplina>());
+    this.disciplinasMatriculadas = new ArrayList<Disciplina>();
   }
 
   public List<Disciplina> ListarDisciplinasMatriculadas() {
@@ -74,11 +75,11 @@ public class Aluno extends Usuario {
     }
   }
 
-  public String getMatricula() {
+  public Integer getMatricula() {
     return matricula;
   }
   
-  public void setMatricula(String matricula) {
+  public void setMatricula(Integer matricula) {
     this.matricula = matricula;
   }
 
