@@ -9,6 +9,14 @@ public class Professor extends Usuario {
     super(nome, login, email, senha);
   }
 
+  public void AdicionarDisciplina(Disciplina disciplina) {
+    this.disciplinas.add(disciplina);
+  }
+
+  public void RemoverDisciplina(Disciplina disciplina) {
+    this.disciplinas.remove(disciplina);
+  }
+
   public List<Disciplina> ListarDisciplinas() {
     return this.disciplinas;
   }

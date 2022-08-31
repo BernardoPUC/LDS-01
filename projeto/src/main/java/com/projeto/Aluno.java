@@ -24,7 +24,7 @@ public class Aluno extends Usuario {
     return this.disciplinasMatriculadas;
   }
 
-  public void addDisciplina(Disciplina disciplina) {
+  public void AddDisciplina(Disciplina disciplina) {
     try {
       Boolean isDisciplinaObrigatoria = disciplina.getTipo() == TipoDisciplina.OBRIGATORIA;
       Boolean disciplinaMatriculada = this.disciplinasMatriculadas.contains(disciplina);
@@ -34,10 +34,10 @@ public class Aluno extends Usuario {
       }
 
       if (isDisciplinaObrigatoria) {
-        this.addDisciplina(disciplina, Aluno.MAX_DISCIPLINAS_OBG, this.disciplinasObg, "obrigatórias");
+        this.AddDisciplina(disciplina, Aluno.MAX_DISCIPLINAS_OBG, this.disciplinasObg, "obrigatórias");
         this.disciplinasObg++;
       } else {
-        this.addDisciplina(disciplina, Aluno.MAX_DISCIPLINAS_OPT, this.disciplinasOpt, "optativas");
+        this.AddDisciplina(disciplina, Aluno.MAX_DISCIPLINAS_OPT, this.disciplinasOpt, "optativas");
         this.disciplinasOpt++;
       }
     } catch (Exception e) {
@@ -45,7 +45,7 @@ public class Aluno extends Usuario {
     }
   }
 
-  private void addDisciplina(Disciplina disciplina, int maxPossivel, int curDisciplinasMatriculadas, String tipoDisciplina) {
+  private void AddDisciplina(Disciplina disciplina, int maxPossivel, int curDisciplinasMatriculadas, String tipoDisciplina) {
     if (curDisciplinasMatriculadas < maxPossivel) {
       disciplina.Matricular(this);
     } else {
@@ -53,7 +53,7 @@ public class Aluno extends Usuario {
     }
   }
 
-  public void removerDisciplina(Disciplina disciplina) {
+  public void RemoverDisciplina(Disciplina disciplina) {
     try {
       Boolean isDisciplinaObrigatoria = disciplina.getTipo() == TipoDisciplina.OBRIGATORIA;
       Boolean disciplinaMatriculada = this.disciplinasMatriculadas.contains(disciplina);
