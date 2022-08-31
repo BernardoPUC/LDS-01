@@ -12,23 +12,13 @@ public class ProfessorFactory {
     System.out.println("============================================================");
   }
 
-  private static void limparTela() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
-  }
-
-  private static void pausa(Scanner teclado) {
-    System.out.println("\033[1;32mEnter para continuar.");
-    teclado.nextLine();
-  }
-
   public static void ListarAlunos(Scanner scanner, Usuario usuario) {
     Professor professor = (Professor) usuario;
 
     String instrucao = "";
     
     do {
-      limparTela();
+      ScannerUtils.LimparTela();
       ProfessorFactory.PrintMenu();
 
       instrucao = ScannerUtils.lerInstrucao(scanner);
@@ -71,7 +61,7 @@ public class ProfessorFactory {
 
     } while (!instrucao.equals("0"));
     
-    pausa(scanner);
-    limparTela();
+    ScannerUtils.Pausa(scanner);
+    ScannerUtils.LimparTela();
   }
 }

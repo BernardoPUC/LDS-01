@@ -5,7 +5,7 @@ import java.util.List;
 public class Disciplina implements Serializable {
   private static final int LIMITE_ALUNOS = 60;
   private static final int MIN_ALUNOS = 3;
-  private static int nextCodigo = 0;
+  private static int NEXT_CODIGO = 0;
 
   private Professor professor;
   private String nome;
@@ -19,7 +19,7 @@ public class Disciplina implements Serializable {
 
   public Disciplina(String nome, Professor professor, TipoDisciplina tipo, Curso curso, Double valor) {
     this.nome = nome;
-    this.codigo = ++Disciplina.nextCodigo;
+    this.codigo = ++Disciplina.NEXT_CODIGO;
     this.nome = nome;
     this.professor = professor;
     this.tipo = tipo;
@@ -29,7 +29,7 @@ public class Disciplina implements Serializable {
   }
 
   public static void AtualizarNextCodigo(int nextCodigo) {
-    Disciplina.nextCodigo = nextCodigo;
+    Disciplina.NEXT_CODIGO = nextCodigo;
   }
 
   public void Matricular(Aluno aluno) {

@@ -56,14 +56,12 @@ public class Aluno extends Usuario implements Serializable {
     }
   }
 
-  private void AddDisciplina(Disciplina disciplina, int maxPossivel, int curDisciplinasMatriculadas,
-      String tipoDisciplina) {
+  private void AddDisciplina(Disciplina disciplina, int maxPossivel, int curDisciplinasMatriculadas, String tipoDisciplina) {
     if (curDisciplinasMatriculadas < maxPossivel) {
       disciplina.Matricular(this);
       this.disciplinasMatriculadas.add(disciplina);
     } else {
-      throw new IllegalStateException(
-          "Só é possivel se matricular em no máximo " + maxPossivel + " disciplinas " + tipoDisciplina);
+      throw new IllegalStateException("Só é possivel se matricular em no máximo " + maxPossivel + " disciplinas " + tipoDisciplina);
     }
   }
 

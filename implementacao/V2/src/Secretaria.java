@@ -10,7 +10,6 @@ public class Secretaria {
   private Map<Integer, Curso> cursos;
   private Map<Integer, Aluno> alunos;
   private SistemaFinanceiro sistemaFinanceiro;
-  // private Boolean permiteAlteracaoDeMatricula;
   private static Secretaria secretaria;
 
   private Secretaria() {

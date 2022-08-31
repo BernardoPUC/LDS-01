@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Curso implements Serializable {
-  private static int nextId = 0;
+  private static int NEXT_ID = 0;
 
   private int id;
   private String nome;
@@ -16,7 +16,7 @@ public class Curso implements Serializable {
     this.setNome(nome);
     this.setCreditos(creditos);
     this.curriculos = new HashMap<Integer, Curriculo>();
-    this.id = ++Curso.nextId;
+    this.id = ++Curso.NEXT_ID;
   }
 
   public void AtualizarCurriculo(Curriculo curriculo) {
