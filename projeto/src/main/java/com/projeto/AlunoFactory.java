@@ -111,6 +111,21 @@ public class AlunoFactory {
     } while (!instrucao.equals("0"));
   }
 
+  public static void ConfirmarMatricula(Scanner scanner, Usuario usuario) {
+    Aluno aluno = (Aluno) usuario;
+    List<Disciplina> disciplinasMatriculadas = aluno.ListarDisciplinasMatriculadas();
+
+    if (disciplinasMatriculadas == null) {
+      System.out.println("Você precisa estar matriculado em pelo menos uma disciplina para confirmar a matricula");
+    }
+
+    String instrucao = ScannerUtils.lerValor("Você deseja confirmar sua matricula? (s/n)", scanner, List.of("s", "n"));
+
+    if (instrucao.equals("s")) {
+      Secretaria.getInstance().InscreverParaSemestre(aluno);
+    }
+  }
+
   public static void PagarCobranca(Scanner scanner, Usuario usuario) {
     Aluno aluno = (Aluno) usuario;
     List<Cobranca> cobrancas = aluno.ListarCobrancas();

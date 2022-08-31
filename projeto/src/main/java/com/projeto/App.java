@@ -7,7 +7,8 @@ public class App {
         System.out.println("========================================");
         System.out.println("== 1 - Fazer matricula em matéria     ==");
         System.out.println("== 2 - Cancelar matricula em matéria  ==");
-        System.out.println("== 3 - Pagar cobranca                 ==");
+        System.out.println("== 3 - Confirmar matricula            ==");
+        System.out.println("== 4 - Pagar cobranca                 ==");
         System.out.println("== 0 - Sair do sistema                ==");
         System.out.println("========================================");
     }
@@ -73,7 +74,9 @@ public class App {
                         case "2": 
                             AlunoFactory.CancelarMatricula(scanner, usuario);
                             break;
-                        case "3": 
+                        case "3":
+                            AlunoFactory.ConfirmarMatricula(scanner, usuario);
+                        case "4": 
                             AlunoFactory.PagarCobranca(scanner, usuario);
                             break;
                         default:
